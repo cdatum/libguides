@@ -20,14 +20,18 @@
                         libID = $('#libraryID').val();
                         myURL = "https://ccac.libanswers.com/1.0/topics?iid=" + libID + "&sort=count&sort_dir=desc&callback=?";
 
-                        $.getJSON(myURL, function (data) {
+                        $.getJSON(myURL, function (items) {
+                            var name = items.data.topics;
                             
-                            $.each(data, function () {
-                                console.log(data.name);
+                            //array of items
+                            console.log(name);
+                            //TODO
+                            $.each(items, function () {
+
                             });
                         });
 
-                        $('#result').append(myURL);
+                        $('#result').html(myURL);
 
                     });
 
