@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LibAnswers FAQ API to Bootstrap Accordion</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <script>
+            $(document).ready(function () {
+
+                // Create a Bootstrap 3 accordion and populate it with FAQ entries from LibAnswers
+                // 
+                // 
+                // Use the LibAnswers API to find the topic_id number for the desired faq entries
+                // https://ccac.libanswers.com/1.0/topics?iid=2042&sort=count&sort_dir=desc
+                var url = "https://ccac.libanswers.com/1.0/faqs?iid=2042&topic_id=49837&sort=updated&sort_dir=desc&callback=?";
+                var output = "";
+                $.getJSON(url, function (data) {
+                    $.each(data.data.faqs, function () {
+                        var faqid = this.faqid;
+                        // Build the accordion for each FAQ entry
+                        output += '<div id="faqItems" class="panel panel-default">';
+                        output += "<div class='panel-heading' role='tab' id=\"heading_" + this.faqid + '">';
+                        output += '<h4 class="panel-title">';
+                        output += '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#' + faqid + '" aria-expanded="false" aria-controls="' + faqid + '">';
+                        output += this.question + '</a></h4></div>';
+                        output += '<div id=\"' + faqid + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="' + faqid + '"><div class="panel-body">';
+                        output += this.answer;
+                        
+                        // If FAQ entry has links, display them below the body. 
+                        if (this.links.length > 0) {
+                            for (i = 0; i < this.links.length; i++) {
+                                console.log(this.links[i].title + "  " + this.links[i].url)
+                            }
+                        }
+                        
+                        
+                        output += '</div></div></div>';
+                        
+                        
+                    });
+                    $("#accordion").append(output);
+                });
+            });
+
+        </script>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
+
+

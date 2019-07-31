@@ -1,0 +1,31 @@
+@charset "utf-8";
+
+/* ---Spacing for database lists --- */ 
+.s-lg-widget-list-description, .s-lg-link-desc, .s-lg-database-desc {    
+line-height: 1.2em;    
+padding-bottom: 1.3em; 
+}
+
+/* Hide the bullet for the lists */
+.s-lg-link-list {
+list-style-type: none !important;
+list-style: none !important;
+}
+
+/* Font size for UL links */
+.s-lg-link-list > li > div > span > a, .s-lg-link-list > li > div > a, .s-lg-system-list > li > a {
+font-size: 1.3em;
+line-height: 1em;
+}
+
+/* Hide bullet on widget-based database lists */
+div[id^="s-lg-widget-"] ul > li {
+    list-style: none;
+}
+
+/* Font size for widget-based database list */
+div[id^="s-lg-widget-"] li > a {
+    font-size: 1.3em;
+    line-height: 1em;
+}
+

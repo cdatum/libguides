@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Database Description Generator</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                // initial setup stuff
+                var preImg = '<div class="row"><div class="col-xs-6 col-sm-6 col-md-4"><img class="img-rounded img-thumbnail img-responsive" alt="screenshot" src="';
+                var postImg = '" /></div><div class="col-md-6"><p style="font-size: 1.2em;" >';
+                var postDesc = "</p></div></div>";
+                $('#dbDesc').focus();
+                $('#card').hide();
+
+                $('#btnSubmit').click(function () {
+                    //get img and desc
+                    var img = $.trim($('#dbImg').val());
+                    var desc = $.trim($('#dbDesc').val());
+
+                    //generate the final output
+                    var output = preImg + img + postImg + desc + postDesc;
+
+                    //append output to div and show it
+                    $('#output').text(output);                    
+                    $('#card').show();
+                });
+
+
+                $('#btnReset').click(function () {
+                    //clear all fields
+                    $('#dbImg').val("");
+                    $('#output').text("");
+                    $('#card').hide();
+                    $('#dbDesc').val("").focus();
+                });
+
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+
+                    <h2>Database Description Generator for Libguides</h2>
+                    The code generated here will produce a layout similar to this once it's added to Libguides.
+                    <p><img src='screenshot.JPG' class='img-responsive img-thumbnail' alt='screenshot'></p>
+
+                </div>
+            </div>
+            <div class="row">
+
+            </div>
+
+            <div class="row">
+                <div class="col-sm">
+                    <h4>Step 1: Add your database description and image URL in these fields then click submit.</h4>
+                    <form>
+                        <label for="dbDesc">Description</label>
+                        <div class="form-group">
+                            <p>
+                                <textarea id="dbDesc" class="form-control" rows="3" placeholder="This is a great database for...."></textarea>
+                            </p>
+
+                            <label for="dbImg">Image URL</label>
+                            <p><textarea id="dbImg" class="form-control" rows="3" placeholder="https://libapps.s3.amazonaws.com/accounts/3897/images/phpManual.JPG"></textarea> </p>
+                        </div>
+                        <button type="button" id="btnSubmit" class="btn btn-primary">Submit</button>
+                        <button type="button" id="btnReset" class="btn btn-primary">Reset</button>
+                    </form>
+                </div>
+
+                <div class="col-sm">
+                    <div id="card">
+                        <h4>Step 2: Copy and paste the code from the output into the description field for the database or weblink in Libguides.</h4>
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Output:</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text" id="output"></p>
+                            </div>
+
+
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#codeModal">
+                                Not sure where the code goes? Click here!
+                            </button>
+
+                        </div>
+                    </div>
+                </div>            
+            </div>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="codeModal" tabindex="-1" role="dialog" aria-labelledby="codeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="codeModalLabel">Look for the Description field</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="col-sm">
+                                <p>For web links and databases, copy and paste the output code into the description field.</p>
+                                <img src="descriptionBox.JPG" alt="description field" class="img-responsive">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

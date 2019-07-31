@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FAQ Topic List</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+
+                topics = 'https://ccac.libanswers.com/1.0/faqs?iid=2042&topic_id=51238&sort=updated&sort_dir=desc&callback=?';
+                $.getJSON(topics, function (data) {
+
+                    var jsonSize = Object.keys(data.faqs).length; // total number of items
+                    console.log("JSONsize: " + jsonSize);
+                    var counter = 1; // counts the total number of items
+                    var itemCount = 0; // to keep track of 4 items per row
+
+
+                    var $row = $('<div>').addClass('row');
+                    $.each(data, function () {
+                        $.each(this, function (key, value) {
+                            var isbn = value.ISBN_cleaned;
+                            //console.log("ISBN: "+ isbn + " " + typeof isbn);
+                            var imgURL = "http://syndetics.com/index.aspx?isbn=" + value.ISBN_cleaned + "/MC.GIF&client=sirsi";
+                            var opac = "<a href=\"https://ccac.ent.sirsi.net/client/en_US/default/search/results?qu=" + value.ISBN_cleaned + "&rt=false|||ISBN|||ISBN" + "\">";
+                            var div = $('<div>');
+                            var p = $('<p>').html("<a href=\"https://ccac.ent.sirsi.net/client/en_US/default/search/results?qu=" +
+                                    value.ISBN_cleaned + "&rt=false|||ISBN|||ISBN" +
+                                    "\"><img alt=\"Book cover image\" class=\"img-responsive center-block coverimg\" title=\"Check CCAC Holdings\" src=\"" + imgURL + "\" border=\"0\"></a><br><div class=\"bookTitle\"><i>" + opac + value.title + "</a></i></div>" + "<div class=\"bookAuthor\">" + value.author_fl + "</div><div class=\"well well-sm saveWell center-block\">Save <span class=\"fa fa-star-o fa-lg\" aria-hidden=\"true\" title=\"Add to save list\"></span><span class=\"sr-only\">Add to save list</span></div>");
+                            p.addClass('text-center');
+                            div.addClass('col-md-3 col-s-3 col-xs-3 item').append(p).appendTo($row);
+                            itemCount++;
+                            counter++;
+                            //after every 4th item, close the row and begin a new one
+                            if (itemCount === 4) {
+
+                                $row.appendTo('#jsonBooks');
+                                $("#jsonBooks").append('<hr>');
+                                $row = $('<div>').addClass('row');
+                                //reset item count
+                                itemCount = 0;
+                            }
+
+                            // When the final item is reached, finish the row
+                            if (counter === jsonSize + 1) {
+                                $row.appendTo('#jsonBooks');
+                                //$row = $('<div>').addClass('row');
+                            }
+
+                        });
+                    });
+                });
+            });
+        </script>
+        
+        
+    </head>
+    <body>
+        <div>TODO write content</div>
+    </body>
+</html>
