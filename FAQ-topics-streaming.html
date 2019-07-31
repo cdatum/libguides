@@ -34,15 +34,13 @@
                         
                         // If FAQ entry has links, display them below the body. 
                         if (this.links.length > 0) {
+                            output += '<h4>Links</h4><div class="well"><ul>';
                             for (i = 0; i < this.links.length; i++) {
-                                console.log(this.links[i].title + "  " + this.links[i].url)
+                                output += '<li><a href="' + this.links[i].url + '">' + this.links[i].title + "</li>";                                
                             }
-                        }
-                        
-                        
-                        output += '</div></div></div>';
-                        
-                        
+                            output += '</ul></div>';
+                        }                                           
+                        output += '</div></div></div>';                                             
                     });
                     $("#accordion").append(output);
                 });
