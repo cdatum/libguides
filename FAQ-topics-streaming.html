@@ -31,16 +31,26 @@
                         output += this.question + '</a></h4></div>';
                         output += '<div id=\"' + faqid + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="' + faqid + '"><div class="panel-body">';
                         output += this.answer;
-                        
+
                         // If FAQ entry has links, display them below the body. 
                         if (this.links.length > 0) {
                             output += '<h4>Links</h4><div class="well"><ul>';
                             for (i = 0; i < this.links.length; i++) {
-                                output += '<li><a href="' + this.links[i].url + '">' + this.links[i].title + "</li>";                                
+                                output += '<li><a href="' + this.links[i].url + '">' + this.links[i].title + "</a></li>";
                             }
                             output += '</ul></div>';
-                        }                                           
-                        output += '</div></div></div>';                                             
+                        }
+
+                        // If FAQ entry has files, display links to them below the body. 
+                        if (this.files.length > 0) {
+                            output += '<h4>Files</h4><div class="well"><ul>';
+                            for (i = 0; i < this.files.length; i++) {
+                                output += '<li><a href="' + this.files[i].url + '">' + this.files[i].title + "</a></li>";
+                            }
+                            output += '</ul></div>';
+                        }
+
+                        output += '</div></div></div>';
                     });
                     $("#accordion").append(output);
                 });
