@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LibAnswers - Get Topics</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div>
+            <script>
+                $(document).ready(function () {
+
+                    var libID, myURL;
+
+                    // Get and display a list of topics from the LibAnswers system
+                    $('#btnLibraryID').click(function () {
+                        libID = $('#libraryID').val();
+                        myURL = "https://ccac.libanswers.com/1.0/topics?iid=" + libID + "&sort=count&sort_dir=desc&callback=?";
+
+                        $.getJSON(myURL, function (data) {
+                            
+                            $.each(data, function () {
+                                console.log(data.name);
+                            });
+                        });
+
+                        $('#result').append(myURL);
+
+                    });
+
+
+                    // iid = the library id number - this is unique to each library
+
+
+                    //                  https://ccac.libanswers.com/1.0/topics?iid=2042&sort=count&sort_dir=desc
+
+
+
+                });
+
+            </script>
+
+            <input id="libraryID" type="number" class="form-control">
+            <button id="btnLibraryID" class="btn btn-default" type="submit">Show Topic List</button>
+
+            <div id="result"></div>
+
+
+        </div>
+    </body>
+</html>
