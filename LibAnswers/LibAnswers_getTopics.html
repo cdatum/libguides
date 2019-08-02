@@ -12,61 +12,64 @@
         <div>
             <script>
                 $(document).ready(function () {
+                    // initial page setup
+                    $('#topics').hide();
 
                     var libID, myURL;
 
                     // Get and display a list of topics from the LibAnswers system
                     $('#btnLibraryID').click(function () {
                         var output = "";
-                        ('#result').prepend("<select>");
+                        // clear previous values if any exist
+                        $('#topics_select').empty();
+
                         libID = $('#libraryID').val();
                         myURL = "https://ccac.libanswers.com/1.0/topics?iid=" + libID + "&sort=count&sort_dir=desc&callback=?";
                         $.getJSON(myURL, function (items) {
                             var name = items.data.topics;
-
                             //array of items
                             console.log(name);
-                            $
+
                             //TODO make the this.topic_id numbers hyperlinked to display the faq items for the topic_id number.
                             $.each(name, function () {
-                              output = "<option value='" + this.topic_id +"'>" + this.name + "</option>";                              
-                              $('#result').append(output);
-                            });                           
-                            
-                        });
-                        $('#result').append("</select>");
-                        
+                                output = "<option value='" + this.topic_id + "'>" + this.name + "</option>";
+                                $('#topics_select').append(output);
+                            });
 
-                        //$('#result').html(myURL);
-                        //$('#result').html(output);
+                        });
+
+                        $('#topics').show();
+
                     });
                     // iid = the library id number - this is unique to each library
-
                     // https://ccac.libanswers.com/1.0/topics?iid=2042&sort=count&sort_dir=desc
 
                 });
 
             </script>
             <div class="container">
-              <div class="row">
-                <div class="col-md-5">
-            <label>Enter your LibAnswers site #: </label>
-            <input id="libraryID" type="text" class="form-control">
-            <br>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h3 class="panel-title">List of available topics</h3>
-              </div>
-              <div class="panel-body">
-            <button id="btnLibraryID" class="btn btn-default" type="submit">Show List of Topics</button>
+                <div class="row">
+                    <div class="col-md-5">
+                        <form id="site_form">
+                            <div class="form-group">
+                                <label>Enter your LibAnswers site #: </label>
+                                <input id="libraryID" type="text" class="form-control">
+                                <button id="btnLibraryID" class="btn btn-default" type="submit">Submit</button>
+                            </div>
+                        </form>
+                        <br>
+                        <div id="topics" class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">List of available topics</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div><select id="topics_select" multiple size="10"></select></div>
+                            </div>
+                        </div>
 
-            <div id="result"></div>
-            <div id="resultTopics"></div>
-          </div>
-          </div>
-          </div>
-          </div>
-        </div>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
