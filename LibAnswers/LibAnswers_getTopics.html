@@ -14,14 +14,16 @@
                 $(document).ready(function () {
                     // initial page setup
                     $('#topics').hide();
+                    // clear previous values if any exist
+                    $('#topics_select').empty();
 
                     var libID, myURL;
 
                     // Get and display a list of topics from the LibAnswers system
                     $('#btnLibraryID').click(function () {
-                        var output = "";
+                        console.log("button clicked");
                         // clear previous values if any exist
-                        $('#topics_select').empty();
+                        //$('#topics_select').empty();
 
                         libID = $('#libraryID').val();
                         myURL = "https://ccac.libanswers.com/1.0/topics?iid=" + libID + "&sort=count&sort_dir=desc&callback=?";
@@ -33,7 +35,8 @@
                             //TODO make the this.topic_id numbers hyperlinked to display the faq items for the topic_id number.
                             $.each(name, function () {
                                 output = "<option value='" + this.topic_id + "'>" + this.name + "</option>";
-                                $('#topics_select').append(output);
+                                $('#topics_select').append("<option value='" + this.topic_id + "'>" + this.name + "</option>");
+                                console.log(this.name);
                             });
 
                         });
@@ -50,13 +53,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-5">
-                        <form id="site_form">
+                        
                             <div class="form-group">
                                 <label>Enter your LibAnswers site #: </label>
                                 <input id="libraryID" type="text" class="form-control">
                                 <button id="btnLibraryID" class="btn btn-default" type="submit">Submit</button>
                             </div>
-                        </form>
+                        
                         <br>
                         <div id="topics" class="panel panel-default">
                             <div class="panel-heading">
