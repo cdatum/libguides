@@ -17,7 +17,8 @@
 
                     // Get and display a list of topics from the LibAnswers system
                     $('#btnLibraryID').click(function () {
-                        var output = "<ul>";
+                        var output = "";
+                        ('#result').prepend("<select>");
                         libID = $('#libraryID').val();
                         myURL = "https://ccac.libanswers.com/1.0/topics?iid=" + libID + "&sort=count&sort_dir=desc&callback=?";
                         $.getJSON(myURL, function (items) {
@@ -25,27 +26,23 @@
 
                             //array of items
                             console.log(name);
+                            $
                             //TODO make the this.topic_id numbers hyperlinked to display the faq items for the topic_id number.
                             $.each(name, function () {
-                              output = "<li>" + this.name + " (ID: " + this.topic_id + ")</li>";
-                              console.log("Items.name " + this.topic_id );
+                              output = "<option value='" + this.topic_id +"'>" + this.name + "</option>";                              
                               $('#result').append(output);
-                            });
+                            });                           
+                            
                         });
-                        output += "</ul>"
+                        $('#result').append("</select>");
+                        
 
-                        $('#result').html(myURL);
+                        //$('#result').html(myURL);
                         //$('#result').html(output);
-
                     });
-
-
                     // iid = the library id number - this is unique to each library
 
-
-                    //                  https://ccac.libanswers.com/1.0/topics?iid=2042&sort=count&sort_dir=desc
-
-
+                    // https://ccac.libanswers.com/1.0/topics?iid=2042&sort=count&sort_dir=desc
 
                 });
 
