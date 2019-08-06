@@ -83,6 +83,15 @@
                                     output += '</ul></div>';
                                 }
 
+                                // If FAQ entry has media items, display links to them below the body. 
+                                if (this.media.length > 0) {
+                                    output += '<h4>Media</h4><div class="well"><ul>';
+                                    for (i = 0; i < this.media.length; i++) {
+                                        output += '<li><a href="' + this.media[i].content.url + '">' + this.media[i].title + "</a></li>";
+                                    }
+                                    output += '</ul></div>';
+                                }
+
                                 output += '</div></div></div>';
                             });
                             $("#faqResults").append(output);
@@ -112,7 +121,7 @@
                             <div class="panel-body">
                                 <div><select id="topicSelect"  size="10"></select></div>
 
-                                <p>
+
                                 <h4>Sort by:</h4>
                                 <select id="sort">
                                     <option value="totalhits">Total Hits</option>
@@ -126,7 +135,7 @@
                                     <option value="asc">Ascending</option>
                                     <option value="desc">Descending</option>                                           
                                 </select>
-                                </p>
+
                             </div>
 
                         </div>
