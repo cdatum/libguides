@@ -49,6 +49,25 @@
                         $("#faqResults").empty();
                         createFAQ(op);
                     });
+
+                    $('#sortSelect').change(function(){
+                    // TODO Update feed when the sort type is selected
+                    op = $(this).children('option:selected').val();
+                    // TODO set global var for sort type and then call createFAQ();
+                    // update createFAQ to pull in the global vars.
+
+                    createFAQ();
+                    console.log("Sort type: " + op);
+                    });
+
+                    $('#sortDirectionSelect').change(function(){
+                    // TODO Update the feed when the sort direction is selected
+                    op = $(this).children('option:selected').val();
+                    console.log("Sort Dir: " + op);
+                    });
+
+
+
                     function createFAQ(id) {
                         var url = "https://ccac.libanswers.com/1.0/faqs?iid=2042&topic_id=" + id + "&sort=totalhits&sort_dir=desc&callback=?";
                         console.log(url);
@@ -65,7 +84,7 @@
                                 output += '<div id=\"' + faqid + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="' + faqid + '"><div class="panel-body">';
                                 output += this.answer;
 
-                                // If FAQ entry has links, display them below the body. 
+                                // If FAQ entry has links, display them below the body.
                                 if (this.links.length > 0) {
                                     output += '<h4>Links</h4><div class="well"><ul>';
                                     for (i = 0; i < this.links.length; i++) {
@@ -74,7 +93,7 @@
                                     output += '</ul></div>';
                                 }
 
-                                // If FAQ entry has files, display links to them below the body. 
+                                // If FAQ entry has files, display links to them below the body.
                                 if (this.files.length > 0) {
                                     output += '<h4>Files</h4><div class="well"><ul>';
                                     for (i = 0; i < this.files.length; i++) {
@@ -83,7 +102,7 @@
                                     output += '</ul></div>';
                                 }
 
-                                // If FAQ entry has media items, display links to them below the body. 
+                                // If FAQ entry has media items, display links to them below the body.
                                 if (this.media.length > 0) {
                                     output += '<h4>Media</h4><div class="well"><ul>';
                                     for (i = 0; i < this.media.length; i++) {
@@ -119,21 +138,21 @@
                                 <h3 class="panel-title">List of available topics</h3>
                             </div>
                             <div class="panel-body">
-                                <div><select id="topicSelect"  size="10"></select></div>
+                                <div><select id="topicSelect" size="10"></select></div>
 
 
                                 <h4>Sort by:</h4>
-                                <select id="sort">
+                                <select id="sortSelect">
                                     <option value="totalhits">Total Hits</option>
                                     <option value="question">Alphabetical</option>
                                     <option value="updated">Last updated</option>
-                                    <option value="created">Date created</option>                                            
-                                </select> 
+                                    <option value="created">Date created</option>
+                                </select>
 
                                 <h4>Sort direction:</h4>
-                                <select id="sortOrder">
+                                <select id="sortDirectionSelect">
                                     <option value="asc">Ascending</option>
-                                    <option value="desc">Descending</option>                                           
+                                    <option value="desc">Descending</option>
                                 </select>
 
                             </div>
@@ -146,7 +165,7 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title">FAQ items</h3>
                             </div>
-                            <div class="panel-body">   
+                            <div class="panel-body">
                                 <div class="panel-group" id="faqResults" role="tablist" aria-multiselectable="true">
 
                                 </div>
