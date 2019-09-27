@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script>
+
+
+        window.onload = function () {
+            Notification.requestPermission(function () {
+                if (Notification.permission === 'granted') {
+                    // user approved.
+                    // use of new Notification(...) syntax will now be successful
+                } else if (Notification.permission === 'denied') {
+                    // user denied.
+                } else { // Notification.permission === 'default'
+                    // user didn’t make a decision.
+                    // You can’t send notifications until they grant permission.
+                }
+            });
+
+            var button = document.getElementById('trigger');
+            var sound = document.getElementById('beep');
+
+            button.addEventListener('click', function () {
+                var alert = new Notification('Hello', {body: 'Hello, world!', icon: 'http://web.acd.ccac.edu/~cgalluzzo/favicon.ico'});
+                playSound(5);
+                setTimeout(alert.close.bind(alert), 4000);
+                
+                
+
+                //document.getElementById('beep').play();
+
+                function playSound(repeats) {
+                    console.log("play sound called");
+                    var i = 0;
+                    for (i ; i < repeats; i++) {
+                        sound.play();
+                    }
+
+                }
+
+                function stopSound() {
+                    sound.stop();
+                }
+            });
+
+
+
+        };
+
+    </script>
+
+    <body>
+        <!--https://laimages.s3.amazonaws.com/data/libchat/chat_beep.mp3 -->
+        <audio id="beep" preload="auto" src="chat_beep.mp3"></audio>
+        <button id="trigger">Alert me</button>
+    </body>
+</html>
