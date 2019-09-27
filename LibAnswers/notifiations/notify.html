@@ -1,59 +1,48 @@
 <!DOCTYPE HTML>
 <html>
-     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-     <head>
-         <title>Sound</title>
-     </head>
-    <script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <head>
+        <title>Sound</title>
+
+        <script>
 
 
-        window.onload = function () {
-            Notification.requestPermission(function () {
-                if (Notification.permission === 'granted') {
-                    // user approved.
-                    // use of new Notification(...) syntax will now be successful
-                } else if (Notification.permission === 'denied') {
-                    // user denied.
-                } else { // Notification.permission === 'default'
-                    // user didn’t make a decision.
-                    // You can’t send notifications until they grant permission.
-                }
-            });
-
-            var button = document.getElementById('trigger');
-            var sound = document.getElementById('beep');
-            
-
-            button.addEventListener('click', function () {
-                var alert = new Notification('Hello', {body: 'Hello, world!', icon: 'http://web.acd.ccac.edu/~cgalluzzo/favicon.ico'});
-                playSound(5);
-                setTimeout(alert.close.bind(alert), 4000);
-                
-                
-
-                //document.getElementById('beep').play();
-
-                function playSound(repeats) {
-                    console.log("play sound called" + repeats);
-                    
-                    var i = 0;
-                    for (i; i < repeats; i++) {
-                        setTimeout(sound.play(), 1000);
-                        console.log("count");
+            window.onload = function () {
+                Notification.requestPermission(function () {
+                    if (Notification.permission === 'granted') {
+                        // user approved.
+                        // use of new Notification(...) syntax will now be successful
+                    } else if (Notification.permission === 'denied') {
+                        // user denied.
+                    } else { // Notification.permission === 'default'
+                        // user didn’t make a decision.
+                        // You can’t send notifications until they grant permission.
                     }
+                });
 
-                }
-
-                function stopSound() {
-                    sound.stop();
-                }
-            });
+                var button = document.getElementById('trigger');
+                var sound = document.getElementById('beep');
 
 
+                button.addEventListener('click', function () {
+                    var alert = new Notification('Hello', {body: 'Hello, world!', icon: 'http://web.acd.ccac.edu/~cgalluzzo/favicon.ico'});
+                    
+                    setTimeout(alert.close.bind(alert), 4000);
+                    
+                    var alert = setInterval(function () {sound.play(); }, 2000);
+                    clearInterval(sound, 6000);
 
-        };
 
-    </script>
+                    //document.getElementById('beep').play();
+
+                });
+
+
+
+            };
+
+        </script>
+    </head>
 
     <body>
         <!--https://laimages.s3.amazonaws.com/data/libchat/chat_beep.mp3 -->
