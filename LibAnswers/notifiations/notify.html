@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html>
-
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>Alert Test</title>
@@ -22,19 +21,13 @@
                 var btnStop = document.getElementById('btnStop');
                 var sound = document.getElementById('beep');
                 var beep;
-
+                
+                
 
                 btnStart.addEventListener('click', function () {
-                    var alert = new Notification('Hello', {body: 'Hello, world!', icon: 'http://web.acd.ccac.edu/~cgalluzzo/favicon.ico'});
-                    setTimeout(alert.close.bind(alert), 4000);
-                    
-                    var alert = setInterval(function () {
-                        sound.play();
-                    }, 2000);                    
-                    clearInterval(alert, 6000);
+                    var alert = new Notification('Sound check', {body: 'Chat notification test. Adjust your audio now!', icon: 'chatBubble.gif'});
+                    setTimeout(alert.close.bind(alert), 8000);
                     startAlert();
-
-
                 });
 
                 btnStop.addEventListener('click', function () {
@@ -45,13 +38,15 @@
                     beep = setInterval(function () {
                         sound.play();
                     }, 2000);
-
                 }
+                
                 function stopAlert() {
                     clearInterval(beep);
                 }
 
             };
+
+
 
         </script>
     </head>
