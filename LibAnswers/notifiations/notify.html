@@ -26,12 +26,13 @@
 
                 button.addEventListener('click', function () {
                     var alert = new Notification('Hello', {body: 'Hello, world!', icon: 'http://web.acd.ccac.edu/~cgalluzzo/favicon.ico'});
-                    
-                    setTimeout(alert.close.bind(alert), 4000);
-                    
-                    var alert = setInterval(function () {sound.play(); }, 2000);
-                    clearInterval(sound, 6000);
 
+                    setTimeout(alert.close.bind(alert), 4000);
+
+                    var beep = setInterval(function () {sound.play(); }, 2000);
+
+                    setTimeout(clearInterval(beep, 6000));
+                    //clearInterval(beep, 6000);
 
                     //document.getElementById('beep').play();
 
