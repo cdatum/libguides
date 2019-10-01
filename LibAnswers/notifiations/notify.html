@@ -1,12 +1,10 @@
 <!DOCTYPE HTML>
 <html>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
     <head>
-        <title>Sound</title>
-
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>Alert Test</title>
         <script>
-
-
             window.onload = function () {
                 Notification.requestPermission(function () {
                     if (Notification.permission === 'granted') {
@@ -20,24 +18,38 @@
                     }
                 });
 
-                var button = document.getElementById('trigger');
+                var btnStart = document.getElementById('btnStart');
+                var btnStop = document.getElementById('btnStop');
                 var sound = document.getElementById('beep');
+                var beep;
 
 
-                button.addEventListener('click', function () {
+                btnStart.addEventListener('click', function () {
                     var alert = new Notification('Hello', {body: 'Hello, world!', icon: 'http://web.acd.ccac.edu/~cgalluzzo/favicon.ico'});
-                    
                     setTimeout(alert.close.bind(alert), 4000);
                     
-                    var alert = setInterval(function () {sound.play(); }, 2000);
+                    var alert = setInterval(function () {
+                        sound.play();
+                    }, 2000);                    
                     clearInterval(alert, 6000);
+                    startAlert();
 
-
-                    //document.getElementById('beep').play();
 
                 });
 
+                btnStop.addEventListener('click', function () {
+                    stopAlert();
+                });
 
+                function startAlert() {
+                    beep = setInterval(function () {
+                        sound.play();
+                    }, 2000);
+
+                }
+                function stopAlert() {
+                    clearInterval(beep);
+                }
 
             };
 
@@ -47,6 +59,7 @@
     <body>
         <!--https://laimages.s3.amazonaws.com/data/libchat/chat_beep.mp3 -->
         <audio id="beep" preload="auto" src="chat_beep.mp3"></audio>
-        <button id="trigger">Alert me</button>
+        <button id="btnStart">Alert me</button>
+        <button id="btnStop">Stop</button>
     </body>
 </html>
