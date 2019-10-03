@@ -16,23 +16,35 @@
                         // You can’t send notifications until they grant permission.
                     }
                 });
-
+                <!-- Notification buttons and sound -->
                 var btnStart = document.getElementById('btnStart');
                 var btnStop = document.getElementById('btnStop');
                 var sound = document.getElementById('beep');
                 var beep;
 
+                var btnStartMsgAlert = document.getElementById('btnStartMsgAlert');
+                var btnStopMsgAlert = document.getElementById('btnStopMsgAlert');
+                var soundMsg = document.getElementById('msgAlert');
+                var msgBeep;
 
 
-                btnStart.addEventListener('click', function () {
-                    var alert = new Notification('Sound check', {body: 'Chat notification test. Adjust your audio now!', icon: 'https://libapps.s3.amazonaws.com/customers/207/images/chatBubble.gif'});
-                    setTimeout(alert.close.bind(alert), 8000);
-                    startAlert();
-                });
+                setupPageElements();
 
-                btnStop.addEventListener('click', function () {
-                    stopAlert();
-                });
+
+                function setupPageElements(){
+
+                  btnStart.addEventListener('click', function () {
+                      var alert = new Notification('Sound check', {body: 'Chat notification test. Adjust your audio now!', icon: 'https://libapps.s3.amazonaws.com/customers/207/images/chatBubble.gif'});
+                      setTimeout(alert.close.bind(alert), 8000);
+                      startAlert();
+                  });
+
+                  btnStop.addEventListener('click', function () {
+                      stopAlert();
+                  });
+                }
+
+
 
                 function startAlert() {
                     beep = setInterval(function () {
@@ -52,9 +64,17 @@
     </head>
 
     <body>
+      <!--Chat notification -->
         <!--https://laimages.s3.amazonaws.com/data/libchat/chat_beep.mp3 -->
         <audio id="beep" preload="auto" src="chat_beep.mp3"></audio>
         <button id="btnStart">Alert me</button>
         <button id="btnStop">Stop</button>
+
+        <!--Internal message notification -->
+        <audio id="msgAlert" preload="auto" src="chat_msg.mp3"></audio>
+        <button id="btnStartMsgAlert">Alert me</button>
+        <button id="btnStopMsgAlert">Stop</button>
+
+
     </body>
 </html>
