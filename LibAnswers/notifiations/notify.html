@@ -21,11 +21,11 @@
                 var btnStop = document.getElementById('btnStop');
                 var sound = document.getElementById('beep');
                 var beep;
-                
-                
+
+
 
                 btnStart.addEventListener('click', function () {
-                    var alert = new Notification('Sound check', {body: 'Chat notification test. Adjust your audio now!', icon: 'chatBubble.gif'});
+                    var alert = new Notification('Sound check', {body: 'Chat notification test. Adjust your audio now!', icon: 'https://libapps.s3.amazonaws.com/customers/207/images/chatBubble.gif'});
                     setTimeout(alert.close.bind(alert), 8000);
                     startAlert();
                 });
@@ -39,7 +39,7 @@
                         sound.play();
                     }, 2000);
                 }
-                
+
                 function stopAlert() {
                     clearInterval(beep);
                 }
