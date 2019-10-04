@@ -24,9 +24,7 @@ window.onload = function () {
     var soundMsg = document.getElementById('msgAlert');
     var msgBeep;
 
-
     setupPageElements();
-
 
     function setupPageElements() {
         btnStart.addEventListener('click', function () {
