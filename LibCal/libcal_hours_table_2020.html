@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Library Weekly Hours</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    </head>
+    <body>
+        <script>
+            /*
+            $(document).ready(function () {
+
+                var hours = "https://api3.libcal.com/api_hours_grid.php?iid=4334&format=json&weeks=1&systemTime=1&callback=?";
+                var rows = "";
+                $.getJSON(hours, function (json) {
+                    $.each(json.locations[0].weeks, function (key, day) { // locations[1] = Math Cafe
+                        $.each(day, function (day, hours) {
+                            var mm = this.date.slice(5, 7);
+                            var dd = this.date.slice(8, 10);
+                            //var yy = this.date.slice(0, 4)
+                            if (day == "Saturday") {
+                                rows += "<tr><td>" + day + "* (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>";
+                            } else {
+                                rows += "<tr><td>" + day + " (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>";
+                            }
+                        });
+                        $("#hoursTable > tbody:last-child").append(rows);
+                        $("#hoursTable td").css({"padding": "5px", "text-transform": "uppercase"});
+                    });
+                });
+            });
+            */
+
+            $(document).ready(function () {
+                var hours = "https://api3.libcal.com/api_hours_grid.php?iid=4334&format=json&lid=7958&weeks=1&systemTime=0&callback=?";
+                var rows = "";
+                $.getJSON(hours, function (json) {
+                    $.each(json.loc_7958.weeks, function (key, day) {
+                        $.each(day, function (day, hours) {
+                            var mm = this.date.slice(5, 7);
+                            var dd = this.date.slice(8, 10);
+                            //var yy = this.date.slice(0, 4)
+                            if (day === "Saturday") {
+                                rows += "<tr><td>" + day + "* (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>";
+                            } else {
+                                rows += "<tr><td>" + day + " (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>";
+                            }
+
+                        });
+                        $("#hoursTable > tbody:last-child").append(rows);
+                        $("#hoursTable td").css({"padding": "5px", "text-transform": "uppercase"});
+                    });
+                });
+            });
+        </script>
+        <table id="hoursTable" class="table table-striped">
+            <tbody></tbody>
+        </table>
+
+    </body>
+</html>
+
