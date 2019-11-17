@@ -32,7 +32,7 @@
              */
 
             $(document).ready(function () {
-                var hours = "https://api3.libcal.com/api_hours_grid.php?iid=4334&format=json&lid=7958&weeks=25&systemTime=0&callback=?";
+                var hours = "https://api3.libcal.com/api_hours_grid.php?iid=4334&format=json&lid=7958&weeks=10&systemTime=0&callback=?";
                 var rows = "";
                 $.getJSON(hours, function (json) {
                     $.each(json.loc_7958.weeks, function (key, day) {
@@ -40,22 +40,22 @@
                             var mm = this.date.slice(5, 7);
                             var dd = this.date.slice(8, 10);
                             var yy = this.date.slice(0, 4);
+                            console.log("Year: " + yy + this.rendered);
                             // In 2020, start putting an asterisk for Saturday
                             if (yy > 2019) {
-                                if (day === "Saturday") {
-                                    if (this.rendered !== "CLOSED") {
-                                        rows += "<tr><td>" + day + " (" + mm + "/" + dd + ")</td><td>" + this.rendered + "<span style='color: #c41230; font-size: 1.2em;'>*</span></td></tr>";
-                                    }
+                                if (day === "Saturday" && this.rendered !== "CLOSED" && this.rendered !== "") {
+                                    addRow("<tr><td>" + day + " (" + mm + "/" + dd + ")</td><td>" + this.rendered + "<span style='color: #c41230; font-size: 1.2em;'>*</span></td></tr>");
                                 } else {
-                                    rows += "<tr><td>" + day + " (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>";
+                                    addRow("<tr><td>" + day + " (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>");                                    
                                 }
                             } else {
-                                rows += "<tr><td>" + day + " (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>";
+                                addRow("<tr><td>" + day + " (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>");                                
                             }
-
-
                         });
-                        $("#hoursTable > tbody:last-child").append(rows);
+
+                        function addRow(row) {
+                            $("#hoursTable > tbody:last-child").append(row);
+                        }
                         $("#hoursTable td").css({"padding": "5px", "text-transform": "uppercase"});
                     });
                 });
