@@ -1,86 +1,61 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
-  <title>Library Weekly Hours</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <title>Library Weekly Hours</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    </head>
 
-<body>
-  <script>
-    /*
-             $(document).ready(function () {
+    <body>
+        <script>
+            $(document).ready(function () {
+                var hours = "https://api3.libcal.com/api_hours_grid.php?iid=4334&format=json&lid=7958&weeks=10&systemTime=0&callback=?";
+                var rows = "";
+                $.getJSON(hours, function (json) {
+                    $.each(json.loc_7958.weeks, function (key, day) {
+                        $.each(day, function (day, hours) {
+                            var mm = this.date.slice(5, 7);
+                            var dd = this.date.slice(8, 10);
+                            var yy = this.date.slice(0, 4);
+                            var addAsterisk;
+                            // In 2020, start putting an asterisk for Saturday
+                            if (yy > 2019) {
+                                if (day === "Saturday" && this.rendered !== "Closed" && this.rendered !== "") {
+                                    addAsterisk = "Yes";                                    
+                                    addRow(day, mm, dd, this.rendered, addAsterisk);
 
-             var hours = "https://api3.libcal.com/api_hours_grid.php?iid=4334&format=json&weeks=1&systemTime=1&callback=?";
-             var rows = "";
-             $.getJSON(hours, function (json) {
-             $.each(json.locations[0].weeks, function (key, day) { // locations[1] = Math Cafe
-             $.each(day, function (day, hours) {
-             var mm = this.date.slice(5, 7);
-             var dd = this.date.slice(8, 10);
-             //var yy = this.date.slice(0, 4)
-             if (day == "Saturday") {
-             rows += "<tr><td>" + day + "* (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>";
-             } else {
-             rows += "<tr><td>" + day + " (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>";
-             }
-             });
-             $("#hoursTable > tbody:last-child").append(rows);
-             $("#hoursTable td").css({"padding": "5px", "text-transform": "uppercase"});
-             });
-             });
-             });
-             */
+                                } else {
+                                    addAsterisk = "No";
+                                    addRow(day, mm, dd, this.rendered, addAsterisk);
+                                }
+                            } else {
+                                addAsterisk = "No";
+                                addRow(day, mm, dd, this.rendered, addAsterisk);
+                            }
+                        });
 
-    $(document).ready(function() {
-      var hours = "https://api3.libcal.com/api_hours_grid.php?iid=4334&format=json&lid=7958&weeks=10&systemTime=0&callback=?";
-      var rows = "";
-      $.getJSON(hours, function(json) {
-        $.each(json.loc_7958.weeks, function(key, day) {
-          $.each(day, function(day, hours) {
-            var mm = this.date.slice(5, 7);
-            var dd = this.date.slice(8, 10);
-            var yy = this.date.slice(0, 4);
-            var addAsterisk;
-            // In 2020, start putting an asterisk for Saturday
-            if (yy > 2019) {
-              if (day === "Saturday" && this.rendered !== "CLOSED" && this.rendered !== "") {
-                addAsterisk = "Yes";
-                addRow(day, mm, dd, this.rendered, addAsterisk);
+                        // Add a row for each day of week. 
+                        function addRow(day, m, dd, status, asterisk) {
+                            console.log("asterisk: " + dd + " - " + status + " " + asterisk);
+                            if (asterisk === "Yes") {
+                                status += "<span style='color: #c41230; font-size: 1.2em;'>*</span>";
+                            }
 
-              } else {
-                addAsterisk = "No";
-                addRow(day, mm, dd, this.rendered, addAsterisk);
+                            $("#hoursTable > tbody:last-child").append("<tr><td>" + day + " (" + m + "/" + dd + ")</td><td>" + status + "</td></tr>");
+                        }
+                        $("#hoursTable td").css({
+                            "padding": "5px",
+                            "text-transform": "uppercase"
+                        });
+                    });
+                });
+            });
+        </script>
+        <table id="hoursTable" class="table table-striped">
+            <tbody></tbody>
+        </table>
 
-              }
-            } else {
-              addAsterisk = "No";
-              addRow(day, mm, dd, this.rendered, addAsterisk);
-
-            }
-          });
-
-          // Add a row for each day of week. 
-          function addRow(day, m, dd, status, asterisk) {
-            if (asterisk === "Yes") {
-              status += "<span style='color: #c41230; font-size: 1.2em;'>*</span>";
-            }
-
-            $("#hoursTable > tbody:last-child").append("<tr><td>" + day + " (" + m + "/" + dd + ")</td><td>" + status + "</td></tr>");
-          }
-          $("#hoursTable td").css({
-            "padding": "5px",
-            "text-transform": "uppercase"
-          });
-        });
-      });
-    });
-  </script>
-  <table id="hoursTable" class="table table-striped">
-    <tbody></tbody>
-  </table>
-
-</body>
+    </body>
 
 </html>
