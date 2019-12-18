@@ -42,6 +42,8 @@
                 function createFAQ() {
                     // clear the results area                
                     $("#faqResults").empty();
+                    // show api url
+                    $('#codePanel').show();
 
                     // set the defalt sort type and direction
                     if (sort === undefined) {
@@ -96,10 +98,10 @@
                         });
                         $("#faqResults").append(output);
                         $('#resultsPanel').show();
-                        
+
                         // Clear the code output text and update it 
-                        $('#codeOutput').text("");
-                        $('#codeOutput').val(output);
+                        $('#codeResults').text("");
+                        $('#codeResults').text(url);
 
                     });
 
@@ -110,6 +112,8 @@
                     // initial page setup
                     $('#topics').hide();
                     $('#resultsPanel').hide();
+                    $('#codePanel').hide();
+
                     // clear previous values if any exist
                     $('#topics_select').empty();
                 }
@@ -164,6 +168,17 @@
                             </select>
                         </div>
                     </div>
+
+                    <div id="codePanel" class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">API URL</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="panel-group" id="codeResults" role="tablist" aria-multiselectable="true">
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-md-6">
@@ -178,16 +193,6 @@
                         </div>
                     </div>
 
-                    <div id="codePanel" class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Accordion Code</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="panel-group" id="codeResults" role="tablist" aria-multiselectable="true">
-                                <textarea id="codeOutput"></textarea>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
             </div>
