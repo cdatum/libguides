@@ -292,3 +292,12 @@ li.ui-tabs-active a {
   display: none !important;
 }
 
+/* Hide the search box on the A-Z list page*/
+#col-search {
+    display: none;
+}
+
+#s-lg-az-filter-cols{
+    padding-bottom: 15px;
+}
+
