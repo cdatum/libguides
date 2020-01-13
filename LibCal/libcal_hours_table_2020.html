@@ -13,6 +13,7 @@
       var hours = "https://api3.libcal.com/api_hours_grid.php?iid=4334&format=json&lid=7958&weeks=1&systemTime=0&callback=?";
       var rows = "";
       var footnote = "";
+
       var addFootnote = new Boolean(false);
       $.getJSON(hours, function(json) {
         footnote = json.loc_7958.fn;
