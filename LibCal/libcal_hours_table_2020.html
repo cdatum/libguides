@@ -12,7 +12,9 @@
             $(document).ready(function () {
                 var hours = "https://api3.libcal.com/api_hours_grid.php?iid=4334&format=json&lid=7958&weeks=1&systemTime=0&callback=?";
                 var rows = "";
+                var footnote = "";
                 $.getJSON(hours, function (json) {
+                    footnote = json.loc_7958.fn;
                     $.each(json.loc_7958.weeks, function (key, day) {
                         $.each(day, function (day, hours) {
                             var mm = this.date.slice(5, 7);
@@ -40,13 +42,14 @@
                             if (asterisk === "Yes") {
                                 status += "<span style='color: #c41230; font-size: 1.2em;'>*</span>";
                             }
-                            $("#hoursTable > tbody:last-child").append("<tr><td>" + day + " (" + m + "/" + dd + ")</td><td>" + status + "</td></tr>");
+                            $("#hoursTable > tbody:last-child").append("<tr><td>" + day + " (" + m + "/" + dd + ")</td><td>" + status + "</td></tr>");                            
                         }
                         $("#hoursTable td").css({
                             "padding": "5px",
                             "text-transform": "uppercase"
                         });
                     });
+                    $("#hoursTable").append(footnote);                
                 });
             });
         </script>

@@ -17,11 +17,11 @@
                             var mm = this.date.slice(5, 7);
                             var dd = this.date.slice(8, 10);
                             //var yy = this.date.slice(0, 4)
-                            rows += "<tr><td>" + day + " (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>"
-                        })
+                            rows += "<tr><td>" + day + " (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>";
+                        });
                         $("#hoursTable > tbody:last-child").append(rows);
                         $("#hoursTable td").css({"padding": "5px", "text-transform": "uppercase"});
-                    })
+                    });
                 });
             });
         </script>
