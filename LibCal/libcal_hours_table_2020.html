@@ -13,6 +13,7 @@
                 var hours = "https://api3.libcal.com/api_hours_grid.php?iid=4334&format=json&lid=7958&weeks=1&systemTime=0&callback=?";
                 var rows = "";
                 var footnote = "";
+                var addFootnote = False;
                 $.getJSON(hours, function (json) {
                     footnote = json.loc_7958.fn;
                     $.each(json.loc_7958.weeks, function (key, day) {
@@ -21,36 +22,37 @@
                             var dd = this.date.slice(8, 10);
                             var yy = this.date.slice(0, 4);
                             var addAsterisk;
-                            // In 2020, start putting an asterisk for Saturday
-                            if (yy > 2019) {
-                                if (day === "Saturday" && this.rendered !== "Closed" && this.rendered !== "") {
-                                    addAsterisk = "Yes";                                    
-                                    addRow(day, mm, dd, this.rendered, addAsterisk);
+                            // Add an asterisk to any Saturday that has open hours & trigger the footnote
+                            if (day === "Saturday" && this.rendered !== "Closed" && this.rendered !== "") {
+                                addAsterisk = "Yes";
+                                addFootnote = True;
+                                addRow(day, mm, dd, this.rendered, addAsterisk);
 
-                                } else {
-                                    addAsterisk = "No";
-                                    addRow(day, mm, dd, this.rendered, addAsterisk);
-                                }
                             } else {
                                 addAsterisk = "No";
                                 addRow(day, mm, dd, this.rendered, addAsterisk);
                             }
+
                         });
 
                         // Add a row for each day of week. 
-                        function addRow(day, m, dd, status, asterisk) {                            
+                        function addRow(day, m, dd, status, asterisk) {
                             if (asterisk === "Yes") {
                                 status += "<span style='color: #c41230; font-size: 1.2em;'>*</span>";
                             }
-                            $("#hoursTable > tbody:last-child").append("<tr><td>" + day + " (" + m + "/" + dd + ")</td><td>" + status + "</td></tr>");                            
+                            $("#hoursTable > tbody:last-child").append("<tr><td>" + day + " (" + m + "/" + dd + ")</td><td>" + status + "</td></tr>");
                         }
                         $("#hoursTable td").css({
                             "padding": "5px",
                             "text-transform": "uppercase"
                         });
                     });
-                    $("#hoursTable").append(footnote);                
+                    $("#hoursTable").append(footnote);
                 });
+                
+                if (addFootnote === True){
+                    console.log("Add footnote");
+                }
             });
         </script>
         <table id="hoursTable" class="table table-striped">
