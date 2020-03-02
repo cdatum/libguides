@@ -1,131 +1,318 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+    <head>
+        <title>Database Description Generator</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap -->
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-<head>
-  <title>Database Description Generator for Virtual Campus Libguide</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
-  <script type="text/javascript">
-    $(document).ready(function() {
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-      // initial setup stuff
-      var preImg = '<div class="row"><div class="col-xs-6 col-sm-6 col-md-4"><img class="img-rounded img-thumbnail img-responsive" alt="screenshot" src="';
-      var postImg = '" /></div><div class="col-md-6"><p class="vc_p_text">';
-      var postDesc = "</p></div></div>";
-      $('#dbDesc').focus();
-      $('#card').hide();
+        <style>
+            #handleLeft, #handleRight {
+                width: 3em;
+                height: 1.6em;
+                top: 50%;
+                margin-top: -.8em;
+                text-align: center;
+                line-height: 1.6em;
+            }
 
-      $('#btnSubmit').click(function() {
-        //get img and desc
-        var img = $.trim($('#dbImg').val());
-        var desc = $.trim($('#dbDesc').val());
+            #sliderLeft, #sliderRight {
+                margin-top: 1.3em;
+            }
 
-        //generate the final output
-        var output = preImg + img + postImg + desc + postDesc;
+            #preview{
+                padding-bottom: 100px;
+                padding-top: 50px;
+            }
 
-        //append output to div and show it
-        $('#output').text(output);
-        $('#card').show();
-      });
+            #output{
+                font-family: monospace;
+                padding: 10px;
+                margin-bottom: 20px;
+
+            }
+
+            #copySuccess{
+                font-size: 1.3em;
+                color: #4cae4c;
+
+            }
+        </style>
+        <script>
+
+            $(document).ready(function () {
+                // hide things we don't need at startup
+                hideStuff();
+
+                $('#dbDesc').focus();
+
+                // Setup the actions for the Submit
+                $('#btnSubmit').click(function () {
+                    //generate the final output
+                    var output = generateOutput();
+
+                    //append output to div and show it
+                    $('#output').val(output);
+                    $('#slidersDiv').show();
+                    $('#card').show();
+                    $('#result').html(output);
+                    $('#preview').show();
+                    $('#previewImage').slideUp();
+                });
+
+                // Setup the reset buttons
+                $('#btnReset, #btnResetBottom').click(function () {
+                    //clear all fields
+                    $('#dbImg').val("");
+                    $('#output').text("");
+                    $('#dbDesc').val("").focus();
+                    $('#previewImage').slideDown();
+                    hideStuff();
+
+                });
+
+                // Setup copy button action - Copies the code that gets generated to the clipboard
+                copy = $('#btnCopy').click(function () {
+                    // Select text
+                    // Get the output box that holds the code and select it
+                    $("#output").select();
+
+                    // Copy it to the clipboard
+                    document.execCommand("copy");
+                    $('#copySuccess').fadeIn(1000, function () {
+                        $(this).fadeOut(3000);
+                    });
+
+                });
+
+                // Setup the sliders
+                var handleLeft = $("#handleLeft");
+                var handleRight = $("#handleRight");
+                // Setup slider size vars
+                var sliderLeftVal, sliderRightVal;
+
+                $("#sliderLeft").slider({
+                    value: 3,
+                    min: 2,
+                    max: 4,
+                    create: function () {
+                        handleLeft.text($(this).slider("value"));
+                    },
+                    slide: function (event, ui) {
+                        handleLeft.text(ui.value);
+                        updateLeftDiv(ui.value);
+                        sliderLeftVal = ui.value;
+
+                    }
+                });
+                $("#sliderRight").slider({
+                    value: 6,
+                    min: 3,
+                    max: 8,
+                    create: function () {
+                        handleRight.text($(this).slider("value"));
+                    },
+                    slide: function (event, ui) {
+                        handleRight.text(ui.value);
+                        updateRightDiv(ui.value);
+                        sliderRightVal = ui.value;
+                    }
+                });
+
+                function generateOutput() {
+                    // load default settings; first run
+                    if (!sliderLeftVal) {
+                        sliderLeftVal = '3';
+                    }
+                    if (!sliderRightVal) {
+                        sliderRightVal = '6';
+                    }
+                    // col-md sizes that can be adjusted by the slider
+                    var preImg = '<div class="row"><div class="col-xs-6 col-sm-6 col-md-' + sliderLeftVal + '"><img class="img-rounded img-thumbnail img-responsive" alt="screenshot" src="';
+                    var postImg = '"></div><div class="col-xs-6 col-sm-6 col-md-' + sliderRightVal + '"><p class="vc-p-text">';
+                    var postDesc = "</p></div></div>";
+
+                    //get img and desc
+                    var img = $.trim($('#dbImg').val());
+                    var desc = $.trim($('#dbDesc').val());
+
+                    var output = preImg + img + postImg + desc + postDesc;
+                    return output;
+                }
+
+                // When the sliders are moved, update the html in the page
+                // to reflect the new value
+                function updateLeftDiv(val) {
+                    col = "col-xs-6 col-sm-6 col-md-" + val;
+                    $("#result").find('img').closest('div').attr('class', col);
+                    $("#output").val($("#result").html());
+
+                }
+
+                function updateRightDiv(val) {
+                    col = "col-xs-6 col-sm-6 col-md-" + val;
+                    $("#result").find('img').parent().next().attr('class', col);
+                    $("#output").val($("#result").html());
+                }
+
+                // Hides various divs that aren't needed at startup
+                function hideStuff() {
+                    $('#card').hide();
+
+                    // The preview of the user's submission
+                    $('#preview').hide();
+
+                    // The adjustment sliders
+                    $('#slidersDiv').hide();
+
+                    //appears when the generated code is copied to the clipboard
+                    $('#copySuccess').hide();
+                }
 
 
-      $('#btnReset').click(function() {
-        //clear all fields
-        $('#dbImg').val("");
-        $('#output').text("");
-        $('#card').hide();
-        $('#dbDesc').val("").focus();
-      });
 
-    });
-  </script>
-</head>
-
-<body>
-  <div class="container">
-    <div class="row">
-      <div class="col-sm">
-
-        <h2>Database Description Generator for Libguides</h2>
-        The code generated here will produce a layout similar to this once it's added to Libguides.
-        <p><img src='screenshot.JPG' class='img-responsive img-thumbnail' alt='screenshot'></p>
-
-      </div>
-    </div>
-    <div class="row">
-
-    </div>
-
-    <div class="row">
-      <div class="col-sm">
-        <h4>Step 1: Add your database description and image URL in these fields then click submit.</h4>
-        <form>
-          <label for="dbDesc">Description</label>
-          <div class="form-group">
-            <p>
-              <textarea id="dbDesc" class="form-control" rows="3" placeholder="This is a great database for...."></textarea>
-            </p>
-
-            <label for="dbImg">Image URL</label>
-            <p><textarea id="dbImg" class="form-control" rows="3" placeholder="https://libapps.s3.amazonaws.com/accounts/3897/images/phpManual.JPG"></textarea> </p>
-          </div>
-          <button type="button" id="btnSubmit" class="btn btn-primary">Submit</button>
-          <button type="button" id="btnReset" class="btn btn-primary">Reset</button>
-        </form>
-      </div>
-
-      <div class="col-sm">
-        <div id="card">
-          <h4>Step 2: Copy and paste the code from the output into the description field for the database or weblink in Libguides.</h4>
-          <div class="card">
-            <div class="card-header">
-              <h5>Output:</h5>
+            });
+        </script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h2>Database Description Generator for Libguides</h2>
+                    <div id="previewImage">
+                        The code generated here will produce a layout similar to this once it's added to Libguides.
+                        <p><img src='http://web.acd.ccac.edu/~cgalluzzo/desc/screenshot.JPG' class='img-responsive img-thumbnail' alt='Screenshot' title="Example output"></p>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-              <p class="card-text" id="output"></p>
+
+            <div class="row">
+                <div class="col-md-6 col-md-offset-1">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Step 1: Add your database description and image URL in these fields then click submit.</h4>
+                        </div>
+                        <div class="panel-body">
+                            <form>
+                                <label for="dbDesc">Description</label>
+                                <div class="form-group">
+                                    <p>
+                                        <textarea id="dbDesc" class="form-control" rows="3" placeholder="This is a great database for...."></textarea>
+                                    </p>
+
+                                    <label for="dbImg">Image URL</label>
+                                    <p><textarea id="dbImg" class="form-control" rows="3" placeholder="https://your-image-url.edu/my_image.jpg"></textarea> </p>
+                                </div>
+                                <button type="button" id="btnSubmit" class="btn btn-primary">Submit</button>
+                                <button type="button" id="btnReset" class="btn btn-primary">Reset</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div id="slidersDiv" class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4>Step 2: Adjust the column sizes to fit your needs and preview the results below. </h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-1">
+                                    <b>Size adjustment: left column</b><br />
+                                    <div id="sliderLeft" class="ui-slider-handle">
+                                        <div id="handleLeft" class="ui-slider-handle"></div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4 col-md-offset-1">
+                                    <b>Size adjustment: right column</b><br />
+                                    <div id="sliderRight" class="ui-slider-handle">
+                                        <div id="handleRight" class="ui-slider-handle"></div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div id="preview" class="row">
+                            <div class='col-md-offset-1 col-md-10'>
+                                <h2>Preview the Results</h2>
+                                <div id="result"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <hr>
             </div>
 
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div id="card">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h4>Final step: After making adjustments with the sliders, copy the code displayed below and paste it into the description field for the database or weblink in Libguides.</h4>
+                            </div>
+                            <div class="panel-body">
+                                <form>
+                                    <div class="form-group">
 
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#codeModal">
-              Not sure where the code goes? Click here!
-            </button>
+                                        <label for="output">Your code:</label>
+                                        <textarea id="output" class="form-control" rows="5"></textarea>
 
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#codeModal">
+                                            Not sure where the code goes? Click here!
+                                        </button>
+                                        <button id="btnCopy" type="button" class="btn btn-success">Copy code</button> <span id="copySuccess">Copied to clipboard!</span>
+                                        <button id="btnResetBottom" class="btn btn-default pull-right">Reset form</button>
 
-
-  <!-- Modal -->
-  <div class="modal fade" id="codeModal" tabindex="-1" role="dialog" aria-labelledby="codeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="codeModalLabel">Look for the Description field</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="container">
-            <div class="col-sm">
-              <p>For web links and databases, copy and paste the output code into the description field.</p>
-              <img src="descriptionBox.JPG" alt="description field" class="img-responsive">
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</body>
+            <div style='height: 400px;'></div>
 
+
+            <!-- Modal -->
+            <div class="modal fade" id="codeModal" tabindex="-1" role="dialog" aria-labelledby="codeModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="codeModalLabel">Look for the Description field</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="col-sm">
+                                    <p>For web links and databases, copy and paste the output code into the description field.</p>
+                                    <img src="descriptionBox.JPG" alt="description field" class="img-responsive">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
