@@ -94,6 +94,7 @@
 
                             output += '</div></div></div>';
                         });
+                        
                         $("#faqResults").append(output);
                         $('#resultsPanel').show();
                         
@@ -119,8 +120,7 @@
                     libID = $('#libraryID').val();
                     if (libID) {
                         myURL = "https://ccac.libanswers.com/1.0/topics?iid=" + libID + "&sort=count&sort_dir=desc&callback=?";
-                        $.getJSON(myURL, function (items) {
-                            console.log(items);
+                        $.getJSON(myURL, function (items) {                            
                             var name = items.topics;
                             $.each(name, function () {
                                 output = "<option value='" + this.topic_id + "'>" + this.name + "</option>";
