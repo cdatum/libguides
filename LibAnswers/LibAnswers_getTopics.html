@@ -54,7 +54,7 @@
                     var url = "https://ccac.libanswers.com/1.0/faqs?iid=2042&topic_id=" + topic + "&sort=" + sort + "&sort_dir=" + sortDir + "&callback=?";
                     var output = "";
                     $.getJSON(url, function (data) {
-                        $.each(data.data.faqs, function () {
+                        $.each(data.faqs, function () {
                             var faqid = this.faqid;
                             // Build the accordion for each FAQ entry
                             output += '<div id="faqItems" class="panel panel-default">';
@@ -120,7 +120,8 @@
                     if (libID) {
                         myURL = "https://ccac.libanswers.com/1.0/topics?iid=" + libID + "&sort=count&sort_dir=desc&callback=?";
                         $.getJSON(myURL, function (items) {
-                            var name = items.data.topics;
+                            console.log(items);
+                            var name = items.topics;
                             $.each(name, function () {
                                 output = "<option value='" + this.topic_id + "'>" + this.name + "</option>";
                                 $('#topicSelect').append("<option value='" + this.topic_id + "'>" + this.name + " (" + this.count + ")" + "</option>");
