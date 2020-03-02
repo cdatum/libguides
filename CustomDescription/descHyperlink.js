@@ -9,5 +9,7 @@ var img = $('.s-lg-link-desc, .s-lg-database-desc').find('img');
 
 // Make each thumbnail a clickable link using the URL it's paired with
 $.each(img, function(){
-var url = $(this).closest('li').children('div').children('a').attr('href');
+var url = $(this).closest('li a').attr('href');
+// Make img a hyperlink
+$(this).wrap("<a target=\"_blank\" href='" + url + "'></a>");
 });
