@@ -4,12 +4,10 @@ It finds thumbnail images created by the tool and then locates the URL associate
 the database/link. Finally, the image is converted into a link.
  */
 
-// Find the thumbnail images
-var img = $('.s-lg-link-desc, .s-lg-database-desc').find('img');
 
-// Make each thumbnail a clickable link using the URL it's paired with
+var img = $('.s-lg-link-desc, .s-lg-database-desc').find('img');
+// Find URL for db and wrap <img> in an <a href> set to the URL
 $.each(img, function(){
-var url = $(this).closest('li').children('div').children('a').attr('href');
-// Make img a hyperlink
-$(this).wrap("<a target=\"_blank\" href='" + url + "'></a>");
+var url = $(this).closest('li').find('a').attr('href');
+$(this).wrap("<a target=\"_blank\" href='" + url + "'></a>")
 });
