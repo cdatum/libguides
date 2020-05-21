@@ -304,6 +304,6 @@ li.ui-tabs-active a {
 /* Bootstrap 3.x button with CCAC red background */
 .btn-ccac {
     background-color: #c41230;
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
