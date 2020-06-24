@@ -13,9 +13,16 @@
         <script>
             // Pull today's hours from LibCal & put into table
             $(document).ready(function () {
+                // get a date
+                var dateNow = new Date();
+                // format date into human readable
+                var format = {weekday: 'long', month: 'long', day: 'numeric'};
+                // display the date
+                var displayDate = dateNow.toLocaleDateString(undefined, format);
+                
                 var libcal = "https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=7958&format=json&systemTime=1&callback=?";
                 $.getJSON(libcal, function (json) {
-                    hoursToday = json.locations[0].day + ": " + json.locations[0].rendered;
+                    hoursToday = displayDate + ": " + json.locations[0].rendered;
                     $("#hoursDiv").append(hoursToday);
                 });
             });
@@ -48,12 +55,12 @@
                         <span class="fa fa-clock-o fa-5x fa-pull-left fa-border" style="color: #b22222;"></span></div>
 
                     <div class="col-md-7 col-sm-7 col-xs-12">
-                        <div id="chatButton2"></div>
+                        <div id="chatButton2" style="padding-top: 15px; padding-bottom: 15px;"></div>
                         <hr>
-                        <div id="hoursDiv" style="font-size: 1.3em;line-height: 2em;"></div>
+                        <div id="hoursDiv" style="padding-bottom: 15px; font-size: 1.3em;line-height: 1.3em;"></div>
                         <div>Visit our <a href="https://libguides.ccac.edu/hours">calendar page</a> for complete hours.</div>                       
-                        
-                        
+
+
                     </div>
                 </div>
             </div>
