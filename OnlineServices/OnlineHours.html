@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="col-md-4 col-sm-6 col-xs-6">
+                <!-- HOURS START -->    
+                <script>
+                    $(document).ready(function () {
+                        var hours = "https://api3.libcal.com/api_hours_grid.php?iid=4334&format=json&lid=7958&weeks=1&systemTime=0&callback=?";
+                        var rows = "";
+                        var footnote = "";
+                        var addFootnote = new Boolean(false);
+                        $.getJSON(hours, function (json) {
+                            footnote = json.loc_7958.fn;
+                            $.each(json.loc_7958.weeks, function (key, day) {
+                                $.each(day, function (day, hours) {
+                                    var mm = this.date.slice(5, 7);
+                                    var dd = this.date.slice(8, 10);
+                                    var yy = this.date.slice(0, 4);
+                                    var addAsterisk;
+                                    // Add an asterisk to any Saturday that has open hours & trigger the footnote
+                                    if (day === "Saturday" && this.rendered !== "Closed" && this.rendered !== "") {
+                                        addAsterisk = "Yes";
+                                        addFootnote = true;
+                                        addRow(day, mm, dd, this.rendered, addAsterisk);
+
+                                    } else {
+                                        addAsterisk = "No";
+                                        addRow(day, mm, dd, this.rendered, addAsterisk);
+                                    }
+
+                                });
+
+                                // Add a row for each day of week.
+                                function addRow(day, m, dd, status, asterisk) {
+                                    if (asterisk === "Yes") {
+                                        status += "<span style='color: #c41230; font-size: 1.2em;'>*</span>";
+                                    }
+                                    $("#hoursTable > tbody:last-child").append("<tr><td>" + day + " (" + m + "/" + dd + ")</td><td>" + status + "</td></tr>");
+                                }
+                                $("#hoursTable td").css({
+                                    "padding": "5px",
+                                    "text-transform": "uppercase"
+                                });
+                            });
+
+                            if (addFootnote === true) {                                
+                                $("#hoursTable").append("<tr><td colspan='2'>" + footnote + "</td></tr>");
+                            }
+
+                        });
+
+
+                    });
+                </script>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><span class="fa fa-clock-o fa-2x" style="color: #b22222;"></span>&nbsp;&nbsp; <span style="font-size:18px;"><strong>Our Online Service Hours</strong></span></div>
+
+                    <div class="panel-body">
+                        <table id="hoursTable" class="table table-striped">
+                            <tbody>
+                                <tr><td style="padding: 5px; text-transform: uppercase;">Sunday (03/22)</td><td style="padding: 5px; text-transform: uppercase;">Closed</td></tr>
+                                <tr><td style="padding: 5px; text-transform: uppercase;">Monday (03/23)</td><td style="padding: 5px; text-transform: uppercase;">8am-8pm</td></tr>
+                                <tr><td style="padding: 5px; text-transform: uppercase;">Tuesday (03/24)</td><td style="padding: 5px; text-transform: uppercase;">8am-8pm</td></tr>
+                                <tr><td style="padding: 5px; text-transform: uppercase;">Wednesday (03/25)</td><td style="padding: 5px; text-transform: uppercase;">8am-8pm</td></tr>
+                                <tr><td style="padding: 5px; text-transform: uppercase;">Thursday (03/26)</td><td style="padding: 5px; text-transform: uppercase;">8am-8pm</td></tr>
+                                <tr><td style="padding: 5px; text-transform: uppercase;">Friday (03/27)</td><td style="padding: 5px; text-transform: uppercase;">8am-8pm</td></tr>
+                                <tr><td style="padding: 5px; text-transform: uppercase;">Saturday (03/28)</td><td style="padding: 5px; text-transform: uppercase;">9am-2pm</td></tr>
+                            </tbody>
+                        </table>
+                       
+                    </div>
+                </div>
+                <!-- END HOUR -->
+            </div>
+    </body>
+</html>
