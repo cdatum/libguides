@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    </head>
+    <body>
+
+
+
+        <script>
+            // Pull today's hours from LibCal & put into table
+            $(document).ready(function () {
+                // get today's date and format it into Day of week, Month and day (e.g. Tuesday, August 11)
+                var dateNow = new Date();
+                var format = {weekday: 'long', month: 'long', day: 'numeric'};
+                var displayDate = dateNow.toLocaleDateString(undefined, format);
+
+                // hoursToday will hold the current day's hours
+                var hoursToday = displayDate;
+                var calFeeds = ["https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=13700&format=json&systemTime=1&callback=?", "https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=7958&format=json&systemTime=1&callback=?"];
+                var libcal = "https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=13700&format=json&systemTime=1&callback=?";
+                var onlineServicesCalendar = "https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=7958&format=json&systemTime=1&callback=?";
+
+
+                $.each(calFeeds, function (i, json) {
+                    $.getJSON(json, function (json) {
+                        hoursToday = json.locations[0].name + ": " + json.locations[0].rendered + "<br>";
+                        $("#hoursDiv").append(hoursToday);
+                    });
+
+                });
+
+
+            });
+        </script>
+
+        <script>
+            // Chat button
+            $(document).ready(function () {
+                //widget online? api code
+                var isOnline = "https://api2.libanswers.com/1.0/chat/widgets/status/10961";
+                var onlineImg = "<a target='_blank' href='https://libguides.ccac.edu/chat'><img class=img-responsive' width='175' src='https://libapps.s3.amazonaws.com/customers/207/images/ChatOnline.gif' alt='Chat is online'><\/a>";
+                var offlineImg = "<a href='https://ccac.libanswers.com' target='_blank'><img class=img-responsive' width='175' src='https://libapps.s3.amazonaws.com/customers/207/images/ChatOffline.gif'  alt='Chat is offline'><\/a>";
+                $.getJSON(isOnline, function (object) {
+                    if (object.online) {
+                        $("#chatButton2").append(onlineImg);
+                    } else {
+                        $("#chatButton2").append(offlineImg);
+                    }
+                });
+            });
+        </script>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading"><span style="font-size:18px;"><strong>Online Service Hours</strong></span></div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 col-xs-12">
+                        <span class="fa fa-clock-o fa-5x fa-pull-left fa-border" style="color: #b22222;"></span></div>
+
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        <div id="chatButton2" style="padding-top: 15px; padding-bottom: 15px;"></div>
+                        <hr>
+                        <div id="hoursDiv" style="padding-bottom: 15px; font-size: 1.3em;line-height: 1.3em;"></div>
+                        <div>Visit our <a href="https://libguides.ccac.edu/hours">calendar page</a> for complete hours.</div>                       
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>
+
+
+
+
+
