@@ -21,9 +21,6 @@
                 // hoursToday will hold the current day's hours
                 var hoursToday = displayDate;
                 var calFeeds = ["https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=13700&format=json&systemTime=1&callback=?", "https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=7958&format=json&systemTime=1&callback=?"];
-                var libcal = "https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=13700&format=json&systemTime=1&callback=?";
-                var onlineServicesCalendar = "https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=7958&format=json&systemTime=1&callback=?";
-
 
                 $.each(calFeeds, function (i, json) {
                     $.getJSON(json, function (json) {
