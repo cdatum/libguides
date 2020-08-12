@@ -18,14 +18,14 @@
                 var format = {weekday: 'long', month: 'long', day: 'numeric'};
                 var displayDate = dateNow.toLocaleDateString(undefined, format);
                 $("#todaysHours").prepend("<div id='dateToday'><p class='text-center'>" + displayDate + "</p></div>");
-                
-                $("#dateToday").css({"font-size": "1.3em", "font-weight": "bold"});
+
+                $("#dateToday").css({"font-size": "1.2em", "font-weight": "bold"});
 
                 // get the calendar feeds and display the hours
                 var calFeeds = ["https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=7958&format=json&systemTime=1&callback=?", "https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=13700&format=json&systemTime=1&callback=?"];
                 $.each(calFeeds, function (i, json) {
                     $.getJSON(json, function (json) {
-                        $('#hoursToday tbody').append('<tr><td>' + json.locations[0].name + '</td><td>' + json.locations[0].rendered + '</td></tr>');
+                        $('#hoursToday').append('<p><b>' + json.locations[0].name + '</b><br>' + json.locations[0].rendered + '</p>');
                     });
                 });
             });
@@ -47,19 +47,23 @@
                         <span class="fa fa-clock-o fa-5x fa-pull-left fa-border" aria-hidden="true" title="Hours" style="color: #b22222;"></span></div>
 
                     <div  class="col-md-7 col-sm-7 col-xs-12">                                
-                        <div id="libchat_90f3f9ca0ea131fad38b7ebf6e330ad3" style="padding-top: 15px; padding-bottom: 15px;"></div>                        
+                        <div id="libchat_90f3f9ca0ea131fad38b7ebf6e330ad3" style="padding-top: 15px; padding-bottom: 15px;"></div>
+                        <div id="hoursToday"></div>
+
+                        <table id="hoursTable" class="table table-hover">
+
+                            <tbody><tr></tr></tbody>
+
+                        </table>
+
 
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12" id="hoursDiv" style="padding-top: 15px;">
-                        <table id="hoursToday" class="table table-hover">
-                            <thead><tr><th>Location</th><th>Hours</th></tr></thead>
-                            <tbody></tbody>
-
-                        </table>
                         <p>Visit our <a href="https://libguides.ccac.edu/hours">calendar page</a> for complete hours.</p>
+
                     </div>
                     <div></div>   
                 </div>
