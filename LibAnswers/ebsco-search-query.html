@@ -1,0 +1,103 @@
+<html>
+
+<head>
+  <!--jQuery & jQueryUI -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+  <!--Bootstrap 3.3.7 -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <!-- FontAwesome icons -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+
+        <p id="sessionLink">
+          https://eds-b-ebscohost-com.ezproxy.ccac.edu/eds/results?vid=0&sid=4e051228-b441-4cc3-92a6-eb202c451adb%40pdc-v-sessmgr01&bquery=global&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl</p>
+        <p id="permalink">https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&scope=site&type=0&site=eds-live&custid=eds&groupid=ccallegy&profid=main&lang=en&bquery=[keywords go here]</p>
+
+        <h2></h2>
+        <div class="form-group">
+          <label for="sessionUrl">URL for OneSearch/Ebscohost Article</label>
+          <input type="text" class="form-control" id="sessionUrl" placeholder="Paste URL here">
+        </div>
+
+
+        <p>
+          <button id="btnConvert" class="btn btn-primary btn-lg" type="button">Convert URL</button> <button id="btnReset" class="btn btn-primary btn-lg" type="button">Reset</button>
+        </p>
+        <p>
+
+          <div class="row">
+            <div class="well" id="well">
+              <div id="result"></div>
+            </div>
+        </p>
+
+
+
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      setupForm();
+
+      function setupForm() {
+        $('#well').hide();
+        $('#success').hide();
+        $('#sessionUrl').val("");
+        $('#sessionUrl').focus();
+      }
+
+
+      $('#btnConvert').click(function() {
+        var errorMsg = "<b>Sorry, I could not find the 'AN' or 'db' codes in that URL. Please check your URL and try again!</b>";
+        var successMsg = "<div id='success'><b>Success! Here's a permalink that should get you to the document: <br><br></b></div>"
+        var re = new RegExp("&bquery=.*&");
+        var sessionUrl = $('#sessionUrl').val();
+
+        //
+        https: //eds-b-ebscohost-com.ezproxy.ccac.edu/eds/results?vid=0&sid=4e051228-b441-4cc3-92a6-eb202c451adb%40pdc-v-sessmgr01&bquery=global&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl
+          if (re.test(sessionUrl)) {
+            //The URL is valid; convert it to a permalink
+
+            var articleId = new String(sessionUrl.match(re)).replace("&bquery=",
+              "https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&scope=site&type=0&site=eds-live&custid=eds&groupid=ccallegy&profid=main&lang=en&bquery=");
+            console.log(articleId);
+            $('#result').html("<a href='" + articleId + "' target='_blank'>" + articleId + "</a>");
+            $('#well').prepend(successMsg);
+            $('#well').fadeIn();
+
+          } else {
+            //The URL is invalid; show the error message
+            $('#result').html(errorMsg);
+            $('#well').fadeIn();
+          }
+
+      });
+
+      $('#btnReset').click(function() {
+        setupForm();
+      });
+    });
+  </script>
+  <!--
+
+
+-->
+
+
+</body>
+
+</html>
