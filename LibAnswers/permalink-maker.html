@@ -42,7 +42,9 @@
         </p>
 
 
-
+        OneSearch search URL: https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl <br>
+        Ebscohost search URL:
+        https://web.b.ebscohost.com/ehost/results?vid=0&sid=443b7fb1-73a8-4e2f-8f0c-5aa8f7f27df6%40sessionmgr101&bquery=global&bdata=JmRiPWY1aCZjbGkwPUZUJmNsdjA9WSZ0eXBlPTEmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVob3N0LWxpdmUmc2NvcGU9c2l0ZQ%3d%3d
       </div>
 
     </div>
@@ -50,6 +52,15 @@
 
   <script>
     $(document).ready(function() {
+      // OneSearch OneSearch
+      // https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl
+      // re for EDS search &bquery=.*&
+
+      // Valid EDS search
+      // https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&scope=site&type=0&site=eds-live&custid=eds&groupid=ccallegy&profid=main&lang=en&bquery=%s
+
+      // Valid Ebscohost OneSearch
+      // https://ezproxy.ccac.edu/login?url=http://search.epnet.com/login.aspx?direct=true&AuthType=cookie,ip,url,uid&bQuery=%s&db=f5h
       setupForm();
 
       function setupForm() {
@@ -59,12 +70,28 @@
         $('#sessionUrl').focus();
       }
 
+      function resolveUrl(url) {
+        var str = "";
+        str = url;
+        console.log("resolveUrl", url);
+        console.log("slice", url.slice(0, 33))
+
+
+
+        /*
+          OneSearch search URL: https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl <br>
+          Ebscohost search URL: https://web.b.ebscohost.com/ehost/results?vid=0&sid=443b7fb1-73a8-4e2f-8f0c-5aa8f7f27df6%40sessionmgr101&bquery=global&bdata=JmRiPWY1aCZjbGkwPUZUJmNsdjA9WSZ0eXBlPTEmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVob3N0LWxpdmUmc2NvcGU9c2l0ZQ%3d%3d
+        */
+      }
 
       $('#btnConvert').click(function() {
+        var sessionUrl = $('#sessionUrl').val();
+        resolveUrl(sessionUrl);
         var errorMsg = "<b>Sorry, I could not find the 'AN' or 'db' codes in that URL. Please check your URL and try again!</b>";
         var successMsg = "<div id='success'><b>Success! Here's a permalink that should get you to the document: <br><br></b></div>"
         var re = new RegExp("#AN=.*");
-        var sessionUrl = $('#sessionUrl').val();
+
+
 
         if (re.test(sessionUrl)) {
           //The URL is valid; convert it to a permalink
