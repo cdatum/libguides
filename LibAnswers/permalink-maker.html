@@ -42,7 +42,7 @@
         </p>
 
 
-        OneSearch search URL: https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl <br>
+        OneSearch search URL: https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl <br><br>
         Ebscohost search URL:
         https://web.b.ebscohost.com/ehost/results?vid=0&sid=443b7fb1-73a8-4e2f-8f0c-5aa8f7f27df6%40sessionmgr101&bquery=global&bdata=JmRiPWY1aCZjbGkwPUZUJmNsdjA9WSZ0eXBlPTEmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVob3N0LWxpdmUmc2NvcGU9c2l0ZQ%3d%3d
       </div>
@@ -52,15 +52,6 @@
 
   <script>
     $(document).ready(function() {
-      // OneSearch OneSearch
-      // https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl
-      // re for EDS search &bquery=.*&
-
-      // Valid EDS search
-      // https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&scope=site&type=0&site=eds-live&custid=eds&groupid=ccallegy&profid=main&lang=en&bquery=%s
-
-      // Valid Ebscohost OneSearch
-      // https://ezproxy.ccac.edu/login?url=http://search.epnet.com/login.aspx?direct=true&AuthType=cookie,ip,url,uid&bQuery=%s&db=f5h
       setupForm();
 
       function setupForm() {
@@ -69,35 +60,93 @@
         $('#sessionUrl').val("");
         $('#sessionUrl').focus();
       }
-
+      /*This function determines what type of URL is being submitted (EDS or Ebscohost) and passes it to the correct function for processing */
       function resolveUrl(url) {
-        var str = "";
-        str = url;
-        console.log("resolveUrl", url);
-        console.log("slice", url.slice(0, 33))
+        //console.log("slice", url.slice(0, 27))
+        // is this a url for a specific document?
+        var re = new RegExp("#AN=.*");
+        if (re.test(url)) {
+          return processDocumentUrl(url);
+        }
+        // is this an EDS search url?
+        else if (url.slice(0, 27) === "https://eds.a.ebscohost.com") {
+          console.log("resolveUrl()", "EDS!");
+          return processEdsSearchUrl(url);
+        }
+        // is this is an Ebscohost database search url?
+        else if (url.slice(0, 27) === "https://web.b.ebscohost.com" || url.slice(0, 27) === "https://web.a.ebscohost.com") {
+          console.log("resolveUrl()", "Ebscohost database!");
+          return processEbscohostSearchUrl(url);
+        } else {
+          // or is it some other url?
+          return "error";
 
+        }
+      };
 
+      /* Converts Ebscohost or EDS session URL for a specific document to permalink */
+      function processDocumentUrl(url) {
+        // use re to find AN
+        console.log("processDocumentUrl called");
+        var re = new RegExp("#AN=.*");
+        if (re.test(url)) {
+          //The URL is valid; convert it to a permalink
+          var result = new String(url.match(re)).replace("#", "https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&site=eds-live&");
+          return result;
+        } else {
+          return "error";
+        };
+
+      };
+      /* Converts Ebscohost search session URLs to permalinks */
+      function processEbscohostSearchUrl(url) {
+        // https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=f5h&bquery=testing&cli0=FT&clv0=Y&type=1&searchMode=Standard&site=ehost-live&scope=site
+        // convert to:
+        // https://ezproxy.ccac.edu/login?url=https://web.b.ebscohost.com/ehost/results?vid=0&bquery=nikon&bdata=JmRiPWY1aCZjbGkwPUZUJmNsdjA9WSZ0eXBlPTEmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVob3N0LWxpdmUmc2NvcGU9c2l0ZQ%3d%3d
+        var re = new RegExp("&bquery=.*&bdata=.*");
+        if (re.test(url)) {
+          //The URL is valid; convert it to a permalink
+          var result = new String(url.match(re)).replace("&", "https://ezproxy.ccac.edu/login?url=https://web.b.ebscohost.com/ehost/results?vid=0&");
+          //result = result.slice(0, -1); //remove the ending &
+          console.log("processEbscohostSearchUrl", result)
+          return result;
+        } else {
+          return "error";
+        };
+      };
+
+      /* Converts EDS session URLs to permalinks */
+      function processEdsSearchUrl(url) {
+        // use re to find bquery
+        // OneSearch OneSearch
+        // https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl
+        // re for EDS search &bquery=.*&
+        // https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&type=0&searchMode=Standard&site=eds-live&bquery=testing
+
+        var re = new RegExp("&bquery=.*&");
+        if (re.test(url)) {
+          //The URL is valid; convert it to a permalink
+          var result = new String(url.match(re)).replace("&", "https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&type=0&searchMode=Standard&site=eds-live&");
+          result = result.slice(0, -1); //remove the ending &
+          return result;
+        } else {
+          return "error";
+        };
 
         /*
           OneSearch search URL: https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl <br>
           Ebscohost search URL: https://web.b.ebscohost.com/ehost/results?vid=0&sid=443b7fb1-73a8-4e2f-8f0c-5aa8f7f27df6%40sessionmgr101&bquery=global&bdata=JmRiPWY1aCZjbGkwPUZUJmNsdjA9WSZ0eXBlPTEmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVob3N0LWxpdmUmc2NvcGU9c2l0ZQ%3d%3d
         */
-      }
+      };
 
       $('#btnConvert').click(function() {
         var sessionUrl = $('#sessionUrl').val();
-        resolveUrl(sessionUrl);
-        var errorMsg = "<b>Sorry, I could not find the 'AN' or 'db' codes in that URL. Please check your URL and try again!</b>";
-        var successMsg = "<div id='success'><b>Success! Here's a permalink that should get you to the document: <br><br></b></div>"
-        var re = new RegExp("#AN=.*");
+        var permalink = resolveUrl(sessionUrl);
+        var errorMsg = "<b>Sorry, there was an error with that URL. Please check it and try again!</b>";
+        var successMsg = "<div id='success'><b>Success! Here's a permalink that should get you to that page: <br><br></b></div>"
 
-
-
-        if (re.test(sessionUrl)) {
-          //The URL is valid; convert it to a permalink
-          var articleId = new String(sessionUrl.match(re)).replace("#", "https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&site=eds-live&");
-
-          $('#result').html("<a href='" + articleId + "' target='_blank'>" + articleId + "</a>");
+        if (permalink != "error") {
+          $('#result').html("<a href='" + permalink + "' target='_blank'>" + permalink + "</a>");
           $('#well').prepend(successMsg);
           $('#well').fadeIn();
 
@@ -112,6 +161,7 @@
       $('#btnReset').click(function() {
         setupForm();
       });
+
     });
   </script>
   <!--
