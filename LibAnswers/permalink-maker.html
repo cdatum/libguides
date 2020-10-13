@@ -100,9 +100,6 @@
       };
       /* Converts Ebscohost search session URLs to permalinks */
       function processEbscohostSearchUrl(url) {
-        // https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&db=f5h&bquery=testing&cli0=FT&clv0=Y&type=1&searchMode=Standard&site=ehost-live&scope=site
-        // convert to:
-        // https://ezproxy.ccac.edu/login?url=https://web.b.ebscohost.com/ehost/results?vid=0&bquery=nikon&bdata=JmRiPWY1aCZjbGkwPUZUJmNsdjA9WSZ0eXBlPTEmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVob3N0LWxpdmUmc2NvcGU9c2l0ZQ%3d%3d
         var re = new RegExp("&bquery=.*&bdata=.*");
         if (re.test(url)) {
           //The URL is valid; convert it to a permalink
@@ -117,12 +114,6 @@
 
       /* Converts EDS session URLs to permalinks */
       function processEdsSearchUrl(url) {
-        // use re to find bquery
-        // OneSearch OneSearch
-        // https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl
-        // re for EDS search &bquery=.*&
-        // https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&type=0&searchMode=Standard&site=eds-live&bquery=testing
-
         var re = new RegExp("&bquery=.*&");
         if (re.test(url)) {
           //The URL is valid; convert it to a permalink
@@ -132,11 +123,6 @@
         } else {
           return "error";
         };
-
-        /*
-          OneSearch search URL: https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl <br>
-          Ebscohost search URL: https://web.b.ebscohost.com/ehost/results?vid=0&sid=443b7fb1-73a8-4e2f-8f0c-5aa8f7f27df6%40sessionmgr101&bquery=global&bdata=JmRiPWY1aCZjbGkwPUZUJmNsdjA9WSZ0eXBlPTEmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVob3N0LWxpdmUmc2NvcGU9c2l0ZQ%3d%3d
-        */
       };
 
       $('#btnConvert').click(function() {
@@ -164,11 +150,6 @@
 
     });
   </script>
-  <!--
-
-
--->
-
 
 </body>
 
