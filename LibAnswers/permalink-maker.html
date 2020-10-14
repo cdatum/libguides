@@ -62,23 +62,28 @@
       }
       /*This function determines what type of URL is being submitted (EDS or Ebscohost) and passes it to the correct function for processing */
       function resolveUrl(url) {
-        //console.log("slice", url.slice(0, 27))
+        // replace any + signs with a space; the + usually appear between search terms
+        url = url.replace("%2B", "%20");
+
+
         // is this a url for a specific document?
         var re = new RegExp("#AN=.*");
         if (re.test(url)) {
           return processDocumentUrl(url);
         }
-        // is this an EDS search url?
-        else if (url.slice(0, 27) === "https://eds.a.ebscohost.com") {
-          console.log("resolveUrl()", "EDS!");
+
+        // is this an EDS search url? Check for variations of and EDS URL
+        else if ((url.slice(0, 12) === "https://eds." && url.slice(13, 27) === ".ebscohost-com") || (url.slice(0, 12) === "https://eds-" && url.slice(13, 27) === "-ebscohost-com")) {
+          //https://eds-b-ebscohost-com.ezproxy.ccac.edu/eds/results?vid=2&sid=1d18437c-752e-4d31-b98f-9767ceb85fad%40pdc-v-sessmgr04&bquery=hydro+colloid&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl
           return processEdsSearchUrl(url);
         }
-        // is this is an Ebscohost database search url?
-        else if (url.slice(0, 27) === "https://web.b.ebscohost.com" || url.slice(0, 27) === "https://web.a.ebscohost.com") {
-          console.log("resolveUrl()", "Ebscohost database!");
+
+        // is this is an Ebscohost database search url? Check for variations of Ehost URLs
+        else if ((url.slice(0, 12) === "https://web." && url.slice(13, 27) === ".ebscohost.com") || (url.slice(0, 12) === "https://web-" && url.slice(13, 27) === "-ebscohost-com")) {
           return processEbscohostSearchUrl(url);
         } else {
-          // or is it some other url?
+
+          // or is it some other url that we can't deal with?
           return "error";
 
         }
@@ -87,7 +92,6 @@
       /* Converts Ebscohost or EDS session URL for a specific document to permalink */
       function processDocumentUrl(url) {
         // use re to find AN
-        console.log("processDocumentUrl called");
         var re = new RegExp("#AN=.*");
         if (re.test(url)) {
           //The URL is valid; convert it to a permalink
@@ -105,7 +109,6 @@
           //The URL is valid; convert it to a permalink
           var result = new String(url.match(re)).replace("&", "https://ezproxy.ccac.edu/login?url=https://web.b.ebscohost.com/ehost/results?vid=0&");
           //result = result.slice(0, -1); //remove the ending &
-          console.log("processEbscohostSearchUrl", result)
           return result;
         } else {
           return "error";
