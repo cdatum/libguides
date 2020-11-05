@@ -40,11 +40,30 @@
               <div id="result"></div>
             </div>
         </p>
-
-
-        OneSearch search URL: https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl <br><br>
-        Ebscohost search URL:
-        https://web.b.ebscohost.com/ehost/results?vid=0&sid=443b7fb1-73a8-4e2f-8f0c-5aa8f7f27df6%40sessionmgr101&bquery=global&bdata=JmRiPWY1aCZjbGkwPUZUJmNsdjA9WSZ0eXBlPTEmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVob3N0LWxpdmUmc2NvcGU9c2l0ZQ%3d%3d
+        <table class="table table-striped table-bordered">
+          <tr>
+            <td>OneSearch search URL:</td>
+            <td> https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>https://eds-a-ebscohost-com.ezproxy.ccac.edu/eds/results?vid=2&sid=8bab5d91-4225-4949-87ed-9892a6066b0c%40sessionmgr4008&bquery=global&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl#ResultIndex_1
+            </td>
+          </tr>
+          <tr>
+            <td>Ebscohost search URL:</td>
+            <td>https://web.b.ebscohost.com/ehost/results?vid=0&sid=443b7fb1-73a8-4e2f-8f0c-5aa8f7f27df6%40sessionmgr101&bquery=global&bdata=JmRiPWY1aCZjbGkwPUZUJmNsdjA9WSZ0eXBlPTEmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVob3N0LWxpdmUmc2NvcGU9c2l0ZQ%3d%3d
+            </td>
+          </tr>
+          <tr>
+            <td>OneSearch folder:</td>
+            <td>https://eds-a-ebscohost-com.ezproxy.ccac.edu/eds/command/detail?vid=13&sid=8c9f7548-8e80-40a6-b1f7-725e6617fa02%40sessionmgr4007&bdata=JnNpdGU9ZWRzLWxpdmU%3d#jid=LGA&db=f5h</td>
+          </tr>
+          <tr>
+            <td>From chat student</td>
+            <td> https://eds.a.ebscohost.com/eds/results?vid=0&sid=11f23fd8-1639-4cb2-a025-abb2f54ca855%40sdc-v-sessmgr02&bquery=security%2Bindustry%2Bstudies&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl</td>
+          </tr>
+        </table>
       </div>
 
     </div>
@@ -62,9 +81,10 @@
       }
       /*This function determines what type of URL is being submitted (EDS or Ebscohost) and passes it to the correct function for processing */
       function resolveUrl(url) {
+        console.log(url.slice(0, 12));
+        console.log(url.slice(13, 27));
         // replace any + signs with a space; the + usually appear between search terms
-        url = url.replace("%2B", "%20");
-
+        url = url.replace(/%2B/ig, "%20");
 
         // is this a url for a specific document?
         var re = new RegExp("#AN=.*");
@@ -73,7 +93,7 @@
         }
 
         // is this an EDS search url? Check for variations of and EDS URL
-        else if ((url.slice(0, 12) === "https://eds." && url.slice(13, 27) === ".ebscohost-com") || (url.slice(0, 12) === "https://eds-" && url.slice(13, 27) === "-ebscohost-com")) {
+        else if ((url.slice(0, 12) === "https://eds." && url.slice(13, 27) === ".ebscohost.com") || (url.slice(0, 12) === "https://eds-" && url.slice(13, 27) === "-ebscohost-com")) {
           //https://eds-b-ebscohost-com.ezproxy.ccac.edu/eds/results?vid=2&sid=1d18437c-752e-4d31-b98f-9767ceb85fad%40pdc-v-sessmgr04&bquery=hydro+colloid&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl
           return processEdsSearchUrl(url);
         }
@@ -129,7 +149,11 @@
       };
 
       $('#btnConvert').click(function() {
-        var sessionUrl = $('#sessionUrl').val();
+        $('#success').hide();
+
+        // get the URL that th user submitted
+        var sessionUrl = $('#sessionUrl').val().trim();
+        $('#sessionUrl').val(sessionUrl);
         var permalink = resolveUrl(sessionUrl);
         var errorMsg = "<b>Sorry, there was an error with that URL. Please check it and try again!</b>";
         var successMsg = "<div id='success'><b>Success! Here's a permalink that should get you to that page: <br><br></b></div>"
