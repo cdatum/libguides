@@ -43,7 +43,7 @@
         <table class="table table-striped table-bordered">
           <tr>
             <td>OneSearch search URL:</td>
-            <td> https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl</td>
+            <td>https://eds.a.ebscohost.com/eds/results?vid=0&sid=49f347b3-40cb-42e7-b273-9f30c24c007e%40sdc-v-sessmgr02&bquery=testing&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl</td>
           </tr>
           <tr>
             <td></td>
@@ -61,7 +61,7 @@
           </tr>
           <tr>
             <td>From chat student</td>
-            <td> https://eds.a.ebscohost.com/eds/results?vid=0&sid=11f23fd8-1639-4cb2-a025-abb2f54ca855%40sdc-v-sessmgr02&bquery=security%2Bindustry%2Bstudies&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl</td>
+            <td>https://eds.a.ebscohost.com/eds/results?vid=0&sid=11f23fd8-1639-4cb2-a025-abb2f54ca855%40sdc-v-sessmgr02&bquery=security%2Bindustry%2Bstudies&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl</td>
           </tr>
         </table>
       </div>
@@ -72,6 +72,7 @@
   <script>
     $(document).ready(function() {
       setupForm();
+      const proxy = "https://ezproxy.ccac.edu/login?url=";
 
       function setupForm() {
         $('#well').hide();
@@ -115,7 +116,7 @@
         var re = new RegExp("#AN=.*");
         if (re.test(url)) {
           //The URL is valid; convert it to a permalink
-          var result = new String(url.match(re)).replace("#", "https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&site=eds-live&");
+          var result = new String(url.match(re)).replace("#", proxy + "https://search.ebscohost.com/login.aspx?direct=true&site=eds-live&");
           return result;
         } else {
           return "error";
@@ -127,7 +128,7 @@
         var re = new RegExp("&bquery=.*&bdata=.*");
         if (re.test(url)) {
           //The URL is valid; convert it to a permalink
-          var result = new String(url.match(re)).replace("&", "https://ezproxy.ccac.edu/login?url=https://web.b.ebscohost.com/ehost/results?vid=0&");
+          var result = new String(url.match(re)).replace("&", proxy + "https://web.b.ebscohost.com/ehost/results?vid=0&");
           //result = result.slice(0, -1); //remove the ending &
           return result;
         } else {
@@ -140,7 +141,7 @@
         var re = new RegExp("&bquery=.*&");
         if (re.test(url)) {
           //The URL is valid; convert it to a permalink
-          var result = new String(url.match(re)).replace("&", "https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&type=0&searchMode=Standard&site=eds-live&");
+          var result = new String(url.match(re)).replace("&", proxy + "https://search.ebscohost.com/login.aspx?direct=true&type=0&searchMode=Standard&site=eds-live&");
           result = result.slice(0, -1); //remove the ending &
           return result;
         } else {
