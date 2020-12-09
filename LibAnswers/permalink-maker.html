@@ -80,8 +80,8 @@
       }
       /*This function determines what type of URL is being submitted (EDS or Ebscohost) and passes it to the correct function for processing */
       function resolveUrl(url) {
-        console.log(url.slice(0, 12));
-        console.log(url.slice(13, 27));
+        //console.log(url.slice(0, 12));
+        //console.log(url.slice(13, 27));
         // replace any + signs with a space; the + usually appear between search terms
         url = url.replace(/%2B/ig, "%20");
 
@@ -147,7 +147,7 @@
         };
       };
 
-      $('#btnConvert').click(function() {
+      function convertURL() {
         $('#success').hide();
 
         // get the URL that th user submitted
@@ -167,11 +167,23 @@
           $('#result').html(errorMsg);
           $('#well').fadeIn();
         }
+      };
 
+      $('#btnConvert').click(function() {
+        convertURL();
       });
 
       $('#btnReset').click(function() {
         setupForm();
+      });
+
+      // process the form when the enter button is pressed
+      $(document).keypress(function(e) {
+        if (e.keyCode === 13) {
+          convertURL();
+        }
+        e.cancelBubble = true;
+        if (e.stopPropagation) e.stopPropagation();
       });
 
     });
