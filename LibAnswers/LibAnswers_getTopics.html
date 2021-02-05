@@ -1,226 +1,242 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>LibAnswers - Get Topics</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    </head>
-    <body>
 
-        <script>
-            $(document).ready(function () {
-                // Setup vars and form
-                var libID, myURL, topic, sort, sortDir;                
-                setupForm();
+<head>
+  <title>LibAnswers - Get Topics</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
 
-                $('#btnGetTopics').click(function () {
-                    getTopics();
-                });
+<body>
 
-                // iid = the library id number - this is unique to each library
-                // https://ccac.libanswers.com/1.0/topics?iid=2042&sort=count&sort_dir=desc
+  <script>
+    $(document).ready(function() {
+      // Setup vars and form
+      var libID, domain, myURL, topic, sort, sortDir;
+      setupForm();
 
-                // Assign the topic id, sort type, and sort direction vars
-                $('#topicSelect').change(function () {
-                    topic = $(this).children('option:selected').val();
-                    createFAQ();
-                });
+      $('#btnGetTopics').click(function() {
+        setupForm();
+        getTopics();
+      });
 
-                $('#sortSelect').change(function () {
-                    sort = $(this).children('option:selected').val();
-                    createFAQ();
-                });
+      $('#btnReset').click(function() {
+        setupForm();
+      });
 
-                $('#sortDirectionSelect').change(function () {
-                    sortDir = $(this).children('option:selected').val();
-                    createFAQ();
-                });
+      // iid = the library id number - this is unique to each library
+      // https://ccac.libanswers.com/1.0/topics?iid=2042&sort=count&sort_dir=desc
 
-                function createFAQ() {
-                    // clear the results area                
-                    $("#faqResults").empty();
+      // Assign the topic id, sort type, and sort direction vars
+      $('#topicSelect').change(function() {
+        topic = $(this).children('option:selected').val();
+        createFAQ();
+      });
 
-                    // set the defalt sort type and direction
-                    if (sort === undefined) {
-                        sort = 'totalhits';
-                    }
-                    if (sortDir === undefined) {
-                        sortDir = 'desc';
-                    }
-                    // build the output
-                    var url = "https://ccac.libanswers.com/1.0/faqs?iid=2042&topic_id=" + topic + "&sort=" + sort + "&sort_dir=" + sortDir + "&callback=?";
-                    var output = "";
-                    $.getJSON(url, function (data) {
-                        $.each(data.faqs, function () {
-                            var faqid = this.faqid;
-                            // Build the accordion for each FAQ entry
-                            output += '<div id="faqItems" class="panel panel-default">';
-                            output += "<div class='panel-heading' role='tab' id=\"heading_" + this.faqid + '">';
-                            output += '<h4 class="panel-title"><span class="fa fa-question-circle fa-lg" aria-hidden="true" style="color:#800000;"></span>&nbsp;&nbsp;';
-                            output += '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#' + faqid + '" aria-expanded="false" aria-controls="' + faqid + '">';
-                            output += this.question + " (" + this.totalhits + ' views)</a></h4></div>';
-                            output += '<div id=\"' + faqid + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="' + faqid + '"><div class="panel-body">';
-                            output += this.answer;
+      $('#sortSelect').change(function() {
+        sort = $(this).children('option:selected').val();
+        createFAQ();
+      });
 
-                            // If FAQ entry has links, display them below the body.
-                            if (this.links.length > 0) {
-                                output += '<h4>Links</h4><div class="well"><ul>';
-                                for (i = 0; i < this.links.length; i++) {
-                                    output += '<li><a href="' + this.links[i].url + '">' + this.links[i].title + "</a></li>";
-                                }
-                                output += '</ul></div>';
-                            }
+      $('#sortDirectionSelect').change(function() {
+        sortDir = $(this).children('option:selected').val();
+        createFAQ();
+      });
 
-                            // If FAQ entry has files, display links to them below the body.
-                            if (this.files.length > 0) {
-                                output += '<h4>Files</h4><div class="well"><ul>';
-                                for (i = 0; i < this.files.length; i++) {
-                                    output += '<li><a href="' + this.files[i].url + '">' + this.files[i].title + "</a></li>";
-                                }
-                                output += '</ul></div>';
-                            }
+      function createFAQ() {
+        // clear the results area
+        $("#faqResults").empty();
 
-                            // If FAQ entry has media items, display links to them below the body.
-                            if (this.media.length > 0) {
-                                output += '<h4>Media</h4><div class="well"><ul>';
-                                for (i = 0; i < this.media.length; i++) {
-                                    output += '<li><a href="' + this.media[i].content.url + '">' + this.media[i].title + "</a></li>";
-                                }
-                                output += '</ul></div>';
-                            }
+        // set the defalt sort type and direction
+        if (sort === undefined) {
+          sort = 'totalhits';
+        }
+        if (sortDir === undefined) {
+          sortDir = 'desc';
+        }
+        // build the output
+        var url = "https://" + domain + "/1.0/faqs?iid=" + libID + "&topic_id=" + topic + "&sort=" + sort + "&sort_dir=" + sortDir + "&callback=?";
+        var output = "";
+        $.getJSON(url, function(data) {
+          $.each(data.faqs, function() {
+            var faqid = this.faqid;
+            // Build the accordion for each FAQ entry
+            output += '<div id="faqItems" class="panel panel-default">';
+            output += "<div class='panel-heading' role='tab' id=\"heading_" + this.faqid + '">';
+            output += '<h4 class="panel-title"><span class="fa fa-question-circle fa-lg" aria-hidden="true" style="color:#800000;"></span>&nbsp;&nbsp;';
+            output += '<a role="button" data-toggle="collapse" data-parent="#accordion" href="#' + faqid + '" aria-expanded="false" aria-controls="' + faqid + '">';
+            output += this.question + " (" + this.totalhits + ' views)</a></h4></div>';
+            output += '<div id=\"' + faqid + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="' + faqid + '"><div class="panel-body">';
+            output += this.answer;
 
-                            output += '</div></div></div>';
-                        });
+            // If FAQ entry has links, display them below the body.
+            if (this.links.length > 0) {
+              output += '<h4>Links</h4><div class="well"><ul>';
+              for (i = 0; i < this.links.length; i++) {
+                output += '<li><a href="' + this.links[i].url + '">' + this.links[i].title + "</a></li>";
+              }
+              output += '</ul></div>';
+            }
 
-                        $("#faqResults").append(output);
-                        $('#resultsPanel').show();
+            // If FAQ entry has files, display links to them below the body.
+            if (this.files.length > 0) {
+              output += '<h4>Files</h4><div class="well"><ul>';
+              for (i = 0; i < this.files.length; i++) {
+                output += '<li><a href="' + this.files[i].url + '">' + this.files[i].title + "</a></li>";
+              }
+              output += '</ul></div>';
+            }
 
-                        // Clear the code output text and update it 
-                        $('#codeOutput').text("");
-                        $('#codeOutput').val(createEmbedCode(url));
-                        $('#codeResults').show();
+            // If FAQ entry has media items, display links to them below the body.
+            if (this.media.length > 0) {
+              output += '<h4>Media</h4><div class="well"><ul>';
+              for (i = 0; i < this.media.length; i++) {
+                output += '<li><a href="' + this.media[i].content.url + '">' + this.media[i].title + "</a></li>";
+              }
+              output += '</ul></div>';
+            }
 
-                    });
+            output += '</div></div></div>';
+          });
 
-                }
+          $("#faqResults").append(output);
+          $('#resultsPanel').show();
 
-                // Do form setup stuff
-                function setupForm() {
-                    // initial page setup
-                    $('#topics').hide();
-                    $('#resultsPanel').hide();
-                    // clear previous values if any exist
-                    $('#topics_select').empty();
-                    $('#codeResults').hide();
-                }
+          // Clear the code output text and update it
+          $('#codeOutput').text("");
+          $('#codeOutput').text(createEmbedCode(url));
+          $('#codePanel').show();
 
-                // Get and display a list of topics from the LibAnswers system
-                function getTopics() {
-                    libID = $('#libraryID').val();
-                    if (libID) {
-                        myURL = "https://ccac.libanswers.com/1.0/topics?iid=" + libID + "&sort=count&sort_dir=desc&callback=?";
-                        $.getJSON(myURL, function (items) {
-                            var name = items.topics;
-                            $.each(name, function () {
-                                output = "<option value='" + this.topic_id + "'>" + this.name + "</option>";
-                                $('#topicSelect').append("<option value='" + this.topic_id + "'>" + this.name + " (" + this.count + ")" + "</option>");
-                            });
-                        });
-                        $('#topics').show();
-                    }
-                }
-                ;
+        });
 
-                // Create output code (html & js) that can be embedded in any LibGuide to produce the accordion FAQ list
-                function createEmbedCode(url) {
-                    var escapedUrl = escapeHtml(url);
-                    var output = "<div class=\"panel-group\" id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\"><\/div>\r\n<script>\r\n            $(document).ready(function () {\r\n                \/\/ Create a Bootstrap 3 accordion and populate it with FAQ entries from LibAnswers\r\n                \/\/ Use the LibAnswers API to find the topic_id number for the desired faq entries\r\n                \/\/ https:\/\/ccac.libanswers.com\/1.0\/topics?iid=2042&sort=count&sort_dir=desc\r\n var url = ";
-                    output += '"' + escapedUrl + '";';
-                    output += "\r\n var output = \"\";\r\n                $.getJSON(url, function (data) {\r\n                    $.each(data.faqs, function () {\r\n                        var faqid = this.faqid;\r\n                        \/\/ Build the accordion for each FAQ entry\r\n                        output += \'<div id=\"faqItems\" class=\"panel panel-default\">\';\r\n                        output += \"<div class=\'panel-heading\' role=\'tab\' id=\\\"heading_\" + this.faqid + \'\">\';\r\n                        output += \'<h4 class=\"panel-title\"><span class=\"fa fa-question-circle fa-lg\" aria-hidden=\"true\" style=\"color:#800000;\"><\/span>&nbsp;&nbsp;\';\r\n                        output += \'<a role=\"button\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#\' + faqid + \'\" aria-expanded=\"false\" aria-controls=\"\' + faqid + \'\">\';\r\n                        output += this.question + \'<\/a><\/h4><\/div>\';\r\n                        output += \'<div id=\\\"\' + faqid + \'\" class=\"panel-collapse collapse\" role=\"tabpanel\" aria-labelledby=\"\' + faqid + \'\"><div class=\"panel-body\">\';\r\n                        output += this.answer;\r\n\r\n                        \/\/ If FAQ entry has links, display them below the body. \r\n                        if (this.links.length > 0) {\r\n                            output += \'<h4>Links<\/h4><div class=\"well\"><ul>\';\r\n                            for (i = 0; i < this.links.length; i++) {\r\n                                output += \'<li><a href=\"\' + this.links[i].url + \'\">\' + this.links[i].title + \"<\/a><\/li>\";\r\n                            }\r\n                            output += \'<\/ul><\/div>\';\r\n                        }\r\n\r\n                        \/\/ If FAQ entry has files, display links to them below the body. \r\n                        if (this.files.length > 0) {\r\n                            output += \'<h4>Files<\/h4><div class=\"well\"><ul>\';\r\n                            for (i = 0; i < this.files.length; i++) {\r\n                                output += \'<li><a href=\"\' + this.files[i].url + \'\">\' + this.files[i].title + \"<\/a><\/li>\";\r\n                            }\r\n                            output += \'<\/ul><\/div>\';\r\n                        }\r\n                        output += \'<\/div><\/div><\/div>\';\r\n                    });\r\n                    $(\"#accordion\").append(output);\r\n                });\r\n            });\r\n\r\n        <\/script>";
-                    return output;
-                }
+      }
 
-                /* Use this map and escapeHtml() to create an escaped url (so it doesn't render in the browser) for use in createEmbedCode() 
-                 * Credit: https://github.com/janl/mustache.js/blob/master/mustache.js*/
-                var entityMap = {
-                    '<': '&lt;',
-                    '>': '&gt;',
-                    '"': '&quot;',
-                    "'": '&#39;',
-                    '`': '&#x60;'
-                };
+      // Do form setup stuff
+      function setupForm() {
+        // initial page setup
+        $('#topics').hide();
+        $('#resultsPanel').hide();
+        // clear previous values if any exist
+        $('#topicSelect').empty();
+        $('#codePanel').hide();
+      }
 
-                function escapeHtml(string) {
-                    return String(string).replace(/[<>"'`]/g, function (s) {
-                        return entityMap[s];
-                    });
-                }
+      // Get and display a list of topics from the LibAnswers system
+      function getTopics() {
+        // clear any previous values from the select
+        //$('#topicSelect').empty();
 
+        libID = $('#libraryID').val();
+        domain = $('#domain').val();
+        if (libID) {
+          myURL = "https://" + domain + "/1.0/topics?iid=" + libID + "&sort=count&sort_dir=desc&callback=?";
+          $.getJSON(myURL, function(items) {
+            var name = items.topics;
+            $.each(name, function() {
+              output = "<option value='" + this.topic_id + "'>" + this.name + "</option>";
+              $('#topicSelect').append("<option value='" + this.topic_id + "'>" + this.name + " (" + this.count + ")" + "</option>");
             });
+          });
+          $('#topics').show();
+        }
+      };
 
-        </script>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-5">
+      // Create output code (html & js) that can be embedded in any LibGuide to produce the accordion FAQ list
+      function createEmbedCode(url) {
+        var escapedUrl = escapeHtml(url);
+        var output =
+          "<div class=\"panel-group\" id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\"><\/div>\r\n<script>\r\n            $(document).ready(function () {\r\n                \/* Create a Bootstrap 3 accordion and populate it with FAQ entries from LibAnswers*\/ \r\n                \/* Use the LibAnswers API to find the topic_id number for the desired faq entries*\/\r\n                \/* https:\/\/ccac.libanswers.com\/1.0\/topics?iid=2042&sort=count&sort_dir=desc*\/\r\n var url = ";
+        output += '"' + escapedUrl + '";';
+        output +=
+          "\r\n var output = \"\";\r\n  $.getJSON(url, function (data) {\r\n                    $.each(data.faqs, function () {\r\n                        var faqid = this.faqid;\r\n                        \/* Build the accordion for each FAQ entry*\/\r\n                        output += \'<div id=\"faqItems\" class=\"panel panel-default\">\';\r\n                        output += \"<div class=\'panel-heading\' role=\'tab\' id=\\\"heading_\" + this.faqid + \'\">\';\r\n                        output += \'<h4 class=\"panel-title\"><span class=\"fa fa-question-circle fa-lg\" aria-hidden=\"true\" style=\"color:#800000;\"><\/span>&nbsp;&nbsp;\';\r\n                        output += \'<a role=\"button\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#\' + faqid + \'\" aria-expanded=\"false\" aria-controls=\"\' + faqid + \'\">\';\r\n                        output += this.question + \'<\/a><\/h4><\/div>\';\r\n                        output += \'<div id=\\\"\' + faqid + \'\" class=\"panel-collapse collapse\" role=\"tabpanel\" aria-labelledby=\"\' + faqid + \'\"><div class=\"panel-body\">\';\r\n                        output += this.answer;\r\n\r\n                        \/* If FAQ entry has links, display them below the body.*\/ \r\n                        if (this.links.length > 0) {\r\n                            output += \'<h4>Links<\/h4><div class=\"well\"><ul>\';\r\n                            for (i = 0; i < this.links.length; i++) {\r\n                                output += \'<li><a href=\"\' + this.links[i].url + \'\">\' + this.links[i].title + \"<\/a><\/li>\";\r\n                            }\r\n                            output += \'<\/ul><\/div>\';\r\n                        }\r\n\r\n                       \/* If FAQ entry has files, display links to them below the body.*\/ \r\n                        if (this.files.length > 0) {\r\n                            output += \'<h4>Files<\/h4><div class=\"well\"><ul>\';\r\n                            for (i = 0; i < this.files.length; i++) {\r\n                                output += \'<li><a href=\"\' + this.files[i].url + \'\">\' + this.files[i].title + \"<\/a><\/li>\";\r\n                            }\r\n                            output += \'<\/ul><\/div>\';\r\n                        }\r\n                        output += \'<\/div><\/div><\/div>\';\r\n                    });\r\n                    $(\"#accordion\").append(output);\r\n                });\r\n            });\r\n\r\n        <\/script>";
 
-                    <div class="form-group">
-                        <label>Enter your LibAnswers site #: </label>
-                        <input id="libraryID" type="text" class="form-control">
-                        <button id="btnGetTopics" class="btn btn-default" type="submit">Get topic list</button>
-                    </div>
 
-                    <br>
-                    <div id="topics" class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">List of available topics</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div><select id="topicSelect" size="10"></select></div>
-                            <h4>Sort by:</h4>
-                            <select id="sortSelect">
-                                <option value="totalhits">Total Hits</option>
-                                <option value="updated">Last updated</option>
-                                <option value="created">Date created</option>
-                            </select>
+        return output;
+      }
 
-                            <h4>Sort direction:</h4>
-                            <select id="sortDirectionSelect">
-                                <option value="desc">Descending</option>
-                                <option value="asc">Ascending</option>                                    
-                            </select>
-                        </div>
-                    </div>
-                </div>
+      /* Use this map and escapeHtml() to create an escaped url (so it doesn't render in the browser) for use in createEmbedCode()
+       * Credit: https://github.com/janl/mustache.js/blob/master/mustache.js*/
+      var entityMap = {
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+        '`': '&#x60;'
+      };
 
-                <div class="col-md-6">
-                    <div id ="resultsPanel" class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">FAQ items</h3>
-                        </div>
-                        <div class="panel-body">
-                            <div class="panel-group" id="faqResults" role="tablist" aria-multiselectable="true">
+      function escapeHtml(string) {
+        return String(string).replace(/[<>"'`]/g, function(s) {
+          return entityMap[s];
+        });
+      }
 
-                            </div>
-                        </div>
-                    </div>
+    });
+  </script>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
 
-                    <div id="codePanel" class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Accordion Code</h3>
-                        </div>
-                        <div class="panel-body">
-                            Copy and paste this code into a new "media/widget" item in a LibGuide for the accordion to display.
-                            <div class="panel-group" id="codeResults" role="tablist" aria-multiselectable="true">
-                                <textarea id="codeOutput"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="form-group">
+          <label>Enter your LibAnswers site #: </label>
+          <input id="libraryID" type="text" class="form-control">
+
+          <label>Enter the base URL for your LibAnswers site: </label>
+          <input id="domain" type="text" class="form-control" value="ccac.libanswers.com">
+
+          <button id="btnGetTopics" class="btn btn-default" type="submit">Get topic list</button> <button id="btnReset" class="btn btn-default" type="reset">Reset</button>
+        </div>
+
+        <br>
+        <div id="topics" class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">List of available topics</h3>
+          </div>
+          <div class="panel-body">
+            <div><select id="topicSelect" size="10"></select></div>
+            <h4>Sort by:</h4>
+            <select id="sortSelect">
+              <option value="totalhits">Total Hits</option>
+              <option value="updated">Last updated</option>
+              <option value="created">Date created</option>
+            </select>
+
+            <h4>Sort direction:</h4>
+            <select id="sortDirectionSelect">
+              <option value="desc">Descending</option>
+              <option value="asc">Ascending</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div id="resultsPanel" class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">FAQ items</h3>
+          </div>
+          <div class="panel-body">
+            <div class="panel-group" id="faqResults" role="tablist" aria-multiselectable="true">
 
             </div>
+          </div>
         </div>
-    </body>
+
+        <div id="codePanel" class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Accordion Code</h3>
+          </div>
+          <div class="panel-body">
+            Copy and paste this code into a new "media/widget" item in a LibGuide for the accordion to display: <br>
+            <div class="well" id="codeOutput"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+
 </html>
