@@ -13,7 +13,7 @@
         <script>
             $(document).ready(function () {
                 // Setup vars and form
-                var libID, myURL, topic, sort, sortDir;
+                var libID, myURL, topic, sort, sortDir;                
                 setupForm();
 
                 $('#btnGetTopics').click(function () {
@@ -94,13 +94,14 @@
 
                             output += '</div></div></div>';
                         });
-                        
+
                         $("#faqResults").append(output);
                         $('#resultsPanel').show();
-                        
+
                         // Clear the code output text and update it 
                         $('#codeOutput').text("");
-                        $('#codeOutput').val(output);
+                        $('#codeOutput').val(createEmbedCode(url));
+                        $('#codeResults').show();
 
                     });
 
@@ -113,6 +114,7 @@
                     $('#resultsPanel').hide();
                     // clear previous values if any exist
                     $('#topics_select').empty();
+                    $('#codeResults').hide();
                 }
 
                 // Get and display a list of topics from the LibAnswers system
@@ -120,7 +122,7 @@
                     libID = $('#libraryID').val();
                     if (libID) {
                         myURL = "https://ccac.libanswers.com/1.0/topics?iid=" + libID + "&sort=count&sort_dir=desc&callback=?";
-                        $.getJSON(myURL, function (items) {                            
+                        $.getJSON(myURL, function (items) {
                             var name = items.topics;
                             $.each(name, function () {
                                 output = "<option value='" + this.topic_id + "'>" + this.name + "</option>";
@@ -131,6 +133,32 @@
                     }
                 }
                 ;
+
+                // Create output code (html & js) that can be embedded in any LibGuide to produce the accordion FAQ list
+                function createEmbedCode(url) {
+                    var escapedUrl = escapeHtml(url);
+                    var output = "<div class=\"panel-group\" id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\"><\/div>\r\n<script>\r\n            $(document).ready(function () {\r\n                \/\/ Create a Bootstrap 3 accordion and populate it with FAQ entries from LibAnswers\r\n                \/\/ Use the LibAnswers API to find the topic_id number for the desired faq entries\r\n                \/\/ https:\/\/ccac.libanswers.com\/1.0\/topics?iid=2042&sort=count&sort_dir=desc\r\n var url = ";
+                    output += '"' + escapedUrl + '";';
+                    output += "\r\n var output = \"\";\r\n                $.getJSON(url, function (data) {\r\n                    $.each(data.faqs, function () {\r\n                        var faqid = this.faqid;\r\n                        \/\/ Build the accordion for each FAQ entry\r\n                        output += \'<div id=\"faqItems\" class=\"panel panel-default\">\';\r\n                        output += \"<div class=\'panel-heading\' role=\'tab\' id=\\\"heading_\" + this.faqid + \'\">\';\r\n                        output += \'<h4 class=\"panel-title\"><span class=\"fa fa-question-circle fa-lg\" aria-hidden=\"true\" style=\"color:#800000;\"><\/span>&nbsp;&nbsp;\';\r\n                        output += \'<a role=\"button\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#\' + faqid + \'\" aria-expanded=\"false\" aria-controls=\"\' + faqid + \'\">\';\r\n                        output += this.question + \'<\/a><\/h4><\/div>\';\r\n                        output += \'<div id=\\\"\' + faqid + \'\" class=\"panel-collapse collapse\" role=\"tabpanel\" aria-labelledby=\"\' + faqid + \'\"><div class=\"panel-body\">\';\r\n                        output += this.answer;\r\n\r\n                        \/\/ If FAQ entry has links, display them below the body. \r\n                        if (this.links.length > 0) {\r\n                            output += \'<h4>Links<\/h4><div class=\"well\"><ul>\';\r\n                            for (i = 0; i < this.links.length; i++) {\r\n                                output += \'<li><a href=\"\' + this.links[i].url + \'\">\' + this.links[i].title + \"<\/a><\/li>\";\r\n                            }\r\n                            output += \'<\/ul><\/div>\';\r\n                        }\r\n\r\n                        \/\/ If FAQ entry has files, display links to them below the body. \r\n                        if (this.files.length > 0) {\r\n                            output += \'<h4>Files<\/h4><div class=\"well\"><ul>\';\r\n                            for (i = 0; i < this.files.length; i++) {\r\n                                output += \'<li><a href=\"\' + this.files[i].url + \'\">\' + this.files[i].title + \"<\/a><\/li>\";\r\n                            }\r\n                            output += \'<\/ul><\/div>\';\r\n                        }\r\n                        output += \'<\/div><\/div><\/div>\';\r\n                    });\r\n                    $(\"#accordion\").append(output);\r\n                });\r\n            });\r\n\r\n        <\/script>";
+                    return output;
+                }
+
+                /* Use this map and escapeHtml() to create an escaped url (so it doesn't render in the browser) for use in createEmbedCode() 
+                 * Credit: https://github.com/janl/mustache.js/blob/master/mustache.js*/
+                var entityMap = {
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;',
+                    '`': '&#x60;'
+                };
+
+                function escapeHtml(string) {
+                    return String(string).replace(/[<>"'`]/g, function (s) {
+                        return entityMap[s];
+                    });
+                }
+
             });
 
         </script>
@@ -184,6 +212,7 @@
                             <h3 class="panel-title">Accordion Code</h3>
                         </div>
                         <div class="panel-body">
+                            Copy and paste this code into a new "media/widget" item in a LibGuide for the accordion to display.
                             <div class="panel-group" id="codeResults" role="tablist" aria-multiselectable="true">
                                 <textarea id="codeOutput"></textarea>
                             </div>
