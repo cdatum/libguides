@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+
+  <!--DataTables -->
+  <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.datatables.net/buttons/1.6.0/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.0/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.html5.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.print.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <!--END DataTables -->
+
+  <script>
+    $(document).ready(function() {
+      var softwareList = [{
+          "computer": "AL-L200-S-01",
+          "resource": "NCLEX-RN 4000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-01",
+          "resource": "Microsoft SQL Server",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-01",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-01",
+          "resource": "Kurzweil 3000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-01",
+          "resource": "Git Bash",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-01",
+          "resource": "Alice 3",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-02",
+          "resource": "NCLEX-RN 4000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-02",
+          "resource": "Microsoft SQL Server",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-02",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-02",
+          "resource": "Kurzweil 3000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-02",
+          "resource": "Git Bash",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-02",
+          "resource": "Alice 3",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-03",
+          "resource": "NCLEX-RN 4000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-03",
+          "resource": "Microsoft SQL Server",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-03",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-03",
+          "resource": "Kurzweil 3000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-03",
+          "resource": "Git Bash",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-03",
+          "resource": "Alice 3",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-04",
+          "resource": "NCLEX-RN 4000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-04",
+          "resource": "Microsoft SQL Server",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-04",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-04",
+          "resource": "Kurzweil 3000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-04",
+          "resource": "Git Bash",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-04",
+          "resource": "Alice 3",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-05",
+          "resource": "NCLEX-RN 4000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-05",
+          "resource": "Microsoft SQL Server",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-05",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-05",
+          "resource": "Kurzweil 3000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-05",
+          "resource": "Git Bash",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-05",
+          "resource": "Alice 3",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-06",
+          "resource": "NCLEX-RN 4000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-06",
+          "resource": "Microsoft SQL Server",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-06",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-06",
+          "resource": "Kurzweil 3000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-06",
+          "resource": "Git Bash",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-06",
+          "resource": "Alice 3",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-07",
+          "resource": "NCLEX-RN 4000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-07",
+          "resource": "Microsoft SQL Server",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-07",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-07",
+          "resource": "Kurzweil 3000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-07",
+          "resource": "Git Bash",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-07",
+          "resource": "Alice 3",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-08",
+          "resource": "NCLEX-RN 4000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-08",
+          "resource": "Microsoft SQL Server",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-08",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-08",
+          "resource": "Kurzweil 3000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-08",
+          "resource": "Git Bash",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-08",
+          "resource": "Alice 3",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-09",
+          "resource": "NCLEX-RN 4000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-09",
+          "resource": "Microsoft SQL Server",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-09",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-09",
+          "resource": "Kurzweil 3000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-09",
+          "resource": "Git Bash",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-09",
+          "resource": "Alice 3",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-10",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-10",
+          "resource": "HP Scanjet G4050",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-10",
+          "resource": "HP Copy G4050",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-10",
+          "resource": "HP Scanning G4050",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-11",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-12",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-13",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-14",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-16",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-17",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-18",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-15",
+          "resource": "Adobe Creative Cloud",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-15",
+          "resource": "HP Scanjet Pro 3500",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-19",
+          "resource": "Kurzweil 3000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-19",
+          "resource": "HP Scanjet Pro 2500 f1",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-20",
+          "resource": "Respondus Lockdown Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-S-20",
+          "resource": "Kurzweil 3000",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-SA-01 (Mac)",
+          "resource": "Firefox Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-SA-01 (Mac)",
+          "resource": "Safari",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-SA-02 (Mac) ",
+          "resource": "Adobe Creative Cloud",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-SA-03 (Mac)",
+          "resource": "Firefox Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-SA-03 (Mac)",
+          "resource": "Safari",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-SA-04 (Mac)",
+          "resource": "Firefox Browser",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "AL-L200-SA-04 (Mac)",
+          "resource": "Safari",
+          "campus": "Allegheny"
+        },
+        {
+          "computer": "NO-N1005-LIB-14",
+          "resource": "Adobe Creative Cloud",
+          "campus": "North"
+        },
+        {
+          "computer": "NO-N1005-LIB-10",
+          "resource": "HP Scanner (flatbed)",
+          "campus": "North"
+        },
+        {
+          "computer": "NO-N1005-LIB-11",
+          "resource": "HP Scanner (document feeder)",
+          "campus": "North"
+        }
+      ];
+
+
+      // Setup the table id="nursing_table"
+      $("#resourceTable").DataTable({
+
+        data: softwareList,
+        columns: [{
+            data: 'resource'
+          },
+          {
+            data: 'computer'
+          },
+          {
+            data: 'campus'
+          }
+        ],
+        "aoColumnDefs": [{
+          "bSortable": true,
+          "aTargets": [0, 1]
+        }],
+        buttons: ['copy', 'excel', 'pdf'],
+        //Optional: set the initial sorting (descending order) to the third column.
+        //Columns are counted 0, 1, 2 so 2 is column 3.
+        "bPaginate": true,
+        "sDom": 'Bftp<"bottom"li><"clear">',
+        "oLanguage": {
+          "sSearch": "Filter:"
+        }
+      });
+    })
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <h2>This is a working accordion draft!</h2>
+      <div id="software"></div>
+
+      <table class="table display dataTable" id="resourceTable">
+        <thead>
+          <tr>
+            <th class="col-md-4">Software</th>
+            <th>Computer #</th>
+            <th>Campus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>NCLEX-RN 4000</td>
+            <td>AL-L200-S-01</td>
+            <td>Allegheny</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+
+  </div>
+</body>
+
+</html>
