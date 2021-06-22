@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+/*
   // Setup the table id="nursing_table"
   $("#softwareTable").dataTable({
     "aoColumnDefs": [{
@@ -15,7 +15,7 @@ $(document).ready(function() {
       "sSearch": "Filter:"
     }
   });
-
+*/
   var resourceList = [{
       "computer": "AL-L200-S-15",
       "resource": "Adobe Creative Cloud",
