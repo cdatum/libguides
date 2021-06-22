@@ -392,16 +392,6 @@ $(document).ready(function() {
       "campus": "Allegheny"
     },
     {
-      "computer": "AL-L200-S-17",
-      "resource": "Respondus Lockdown Browser",
-      "campus": "Allegheny"
-    },
-    {
-      "computer": "AL-L200-S-18",
-      "resource": "Respondus Lockdown Browser",
-      "campus": "Allegheny"
-    },
-    {
       "computer": "AL-L200-S-20",
       "resource": "Respondus Lockdown Browser",
       "campus": "Allegheny"
