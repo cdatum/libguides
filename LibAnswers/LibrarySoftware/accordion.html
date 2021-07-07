@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="softwareList.js"></script>
+
+  <!--DataTables -->
+  <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.datatables.net/buttons/1.6.0/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.0/js/dataTables.buttons.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.html5.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.6.0/js/buttons.print.min.js"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <!--END DataTables -->
+
+  <script>
+    $(document).ready(function() {
+      $.each(resourceList, function(index, entry) {
+        //console.log(entry.computer, entry.resource, entry.campus);
+      });
+
+      // Create array of unique software/hardware resources
+      var resources = [];
+      var campuses = [];
+      var computers = [];
+      var counter = -1; // to help keep track of # of resources; used in campus resource list
+      //var test = [];
+
+      // fill the resources array (software & hardware)
+      $.each(resourceList, function(index, entry) {
+        if ($.inArray(entry.resource, resources) === -1) {
+          resources.push(entry.resource)
+        }
+        resources.sort();
+      });
+
+      // fill the computers array
+      $.each(resourceList, function(index, entry) {
+        if ($.inArray(entry.computer, computers) === -1) {
+          computers.push(entry.computer)
+        }
+        computers.sort();
+      });
+
+      // fill the campuses array
+      $.each(resourceList, function(index, entry) {
+        if ($.inArray(entry.campus, campuses) === -1) {
+          campuses.push(entry.campus)
+        }
+        campuses.sort();
+      });
+
+      console.log("resources", resources);
+      console.log("campuses", campuses);
+      console.log("computers", computers);
+
+
+
+      // for each item in resources[], look in resourceList[] to find the campus & computer
+      /*
+    $.each(resources, function(index, value) {
+      $("#software").append("<h3>" + value + "</h3>");
+        $.grep(resourceList, function(val, i){
+          if (val.resource === value){
+            $("#software").append(val.campus + " " + val.computer + "<br>");
+            console.log(val.resource, ":", val);
+          }
+        })
+    })
+  */
+
+      // for each item in resources[], look in resourceList[] to find the campus & computer
+      $.each(resources, function(index, resource) {
+        //$("#software").append("<h3>" + value + "</h3>");
+        $("#accordionSoftware").append('<div class="panel panel-default"><div class="panel-heading" role="tab" id="heading' + index +
+          '"><h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse' + index + '" aria-expanded="true" aria-controls="collapse' + index + '">' + resource +
+          '</a></h4></div><div id="collapse' + index + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading' + index + '"><div id="body' + index + '"class="panel-body">');
+        $.grep(resourceList, function(val, i) {
+          if (val.resource === resource) {
+            //collapse += val.campus + " " + val.computer + "<br>";
+            //console.log(collapse);
+            //$("#software").append(val.campus + " " + val.computer + "<br>");
+            //$("#accordion").append(val.campus + " " + val.computer + "<br>");
+            var bodyIndex = "body" + index;
+            $('#' + bodyIndex).append(val.campus + " " + val.computer + "<br>");
+          }
+          $("#accordionSoftware").append("</div></div></div>");
+
+        })
+      })
+
+      // for each campus, list the resource & computer #
+      $.each(campuses, function(index, campus) {
+        //$("#software").append("<h3>" + value + "</h3>");
+        var accordionResourcesByCampusId = "accordionResourcesByCampus" + index;
+
+        $("#accordionCampus").append('<div class="panel panel-default">' +
+          '<div class="panel-heading" role="tab" id="headingCampus' + index + '">' +
+          '<h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseCampus' + index +
+          '" aria-expanded="true" aria-controls="collapseCampus' + index + '">' + campus + '</a></h4></div><div id="collapseCampus' + index +
+          '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingCampus' + index + '"><div id="campus' + index + '"class="panel-body">'
+
+          //setup an accordion for the resource titles
+          +
+          '<div class="panel-group" id="' + accordionResourcesByCampusId + '" role="tablist" aria-multiselectable="true">');
+        var sublist = []; //holds software titles
+
+
+        //find & list items by campus
+        $.grep(resourceList, function(val, i) {
+          if (val.campus == campus) {
+            //push item to campus-specific array
+            sublist.push(val.resource);
+          }
+        });
+        // Sort the array A-Z then create a helper array that contains a non-duplicated list of software titles for the campus
+        sublist.sort();
+        sublist = [...new Set(sublist)];
+
+
+        counter += sublist.length; // update the counter to help generate unique IDs
+
+        // for each campus, create panels for each software/hardware resource
+        for (let i = 0; i < sublist.length; i++) {
+          //setup ids for panels etc
+          var headingResourceId = "headingResource" + counter;
+          var bodyResourceId = "bodyResource" + counter;
+          var collapseCampusResId = "collapseCampusRes" + counter;
+
+          //create a panel for each software/hardware resource
+          var panel = '<div class="panel panel-default"><div class="panel-heading" role="tab" id="' + headingResourceId +
+            '"><h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="' + accordionResourcesByCampusId + '" href="#' + collapseCampusResId + '">' + sublist[i] + '</a>' +
+            '</h4></div></div><div id="' + collapseCampusResId + '" class="panel-collapse collapse"><div class="panel-body" id="' + bodyResourceId + '"></div></div><br>';
+
+          // add panel for the campus to the parent panel
+          var bodyIndex = "campus" + index; //this is the panel-body id
+          $('#' + bodyIndex).append(panel);
+
+          // for each item in software array, find computers
+          //console.log("sublist[i] resource:", sublist[i]);
+
+          //find & list resources
+          $.grep(resourceList, function(res) {
+            if ((res.resource == sublist[i]) && (res.campus == campus)) {
+              //append the computer number to the software-specific panel
+              $('#' + bodyResourceId).append(res.computer + "<br>");
+            }
+
+          });
+          counter++;
+
+        };
+
+        //close out the main accordion
+        $("#accordionCampus").append("</div></div></div></div>");
+
+      });
+    });
+  </script>
+
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="row">
+      <h2>This is a working accordion draft!</h2>
+      <div id="software"></div>
+    </div>
+
+    <div class="row">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"> <a href="#resources" aria-controls="resources" role="tab" data-toggle="tab">Software and Hardware Resources</a></li>
+        <li role="presentation"> <a href="#campus" aria-controls="campus" role="tab" data-toggle="tab">Campus</a></li>
+        <!-- <li role="presentation"> <a href="#computer" aria-controls="computer" role="tab" data-toggle="tab">Computer #</a></li> -->
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="resources">
+          <div class="col-md-10">
+            Choose a resource in the list below to see the campus and computer # where the hardware/software can be found.
+            <div class="panel-group" id="accordionSoftware" role="tablist" aria-multiselectable="true"></div>
+          </div>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="campus">
+          <div class="col-md-10">
+            Choose a campus to see a list of available hardware/software and the computer number(s) where it can be found.
+            <div class="panel-group" id="accordionCampus" role="tablist" aria-multiselectable="true"></div>
+          </div>
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="computer">computer</div>
+      </div>
+    </div>
+
+
+
+  </div>
+  <!--end container-->
+</body>
+
+</html>
