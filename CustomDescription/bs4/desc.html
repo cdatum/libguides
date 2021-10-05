@@ -17,8 +17,14 @@
       var preImg = '<div class="row"><div class="col-xs-6 col-sm-6 col-md-4"><img class="img-rounded img-thumbnail img-responsive" alt="screenshot" src="';
       var postImg = '" /></div><div class="col-md-4"><p style="font-size: 1.2em; line-height: 1.5em;" >';
       var postDesc = "</p></div></div>";
-      $('#dbDesc').focus();
-      $('#card').hide();
+      formSetup();
+
+      function formSetup() {
+        $('#dbDesc').focus();
+        $('#card').hide();
+        $('#preview').hide();
+      }
+
 
       $('#btnSubmit').click(function() {
         //get img and desc
@@ -32,6 +38,7 @@
         $('#output').text(output);
         $('#result').html(output);
         $('#card').show();
+        $('#preview').show();
       });
 
 
@@ -80,31 +87,32 @@
         </form>
       </div>
 
-      <div class="col-sm">
-        <div id="card">
-          <h4>Step 2: Copy and paste the code from the output into the description field for the database or weblink in Libguides.</h4>
-          <div class="card">
-            <div class="card-header">
-              <h5>Output:</h5>
-            </div>
-            <div class="card-body">
-              <p class="card-text" id="output"></p>
-            </div>
-
-
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#codeModal">
-              Not sure where the code goes? Click here!
-            </button>
-
-          </div>
-        </div>
-      </div>
     </div>
 
     <div id="preview" class="row">
       <div class='col-lg'>
         <h2>Preview the Results</h2>
         <div id="result">Preview</div>
+      </div>
+    </div>
+
+    <div class="col-sm">
+      <div id="card">
+        <h4>Step 2: Copy and paste the code from the output into the description field for the database or weblink in Libguides.</h4>
+        <div class="card">
+          <div class="card-header">
+            <h5>Output:</h5>
+          </div>
+          <div class="card-body">
+            <p class="card-text" id="output"></p>
+          </div>
+
+
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#codeModal">
+            Not sure where the code goes? Click here!
+          </button>
+
+        </div>
       </div>
     </div>
 
