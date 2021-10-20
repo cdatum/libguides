@@ -133,15 +133,14 @@ div[id^="s-lg-widget-"] li>a {
   background-color: #c41230
 }
 
-@media (max-width: 767px) 
-    {
+@media (max-width: 767px) {
+
   .navbar-default .navbar-nav .open .dropdown-menu>.active>a,
   .navbar-default .navbar-nav .open .dropdown-menu>.active>a:hover,
   .navbar-default .navbar-nav .open .dropdown-menu>.active>a:focus {
     color: #fff;
     background-color: #000
   }
-
 
   .navbar-default .navbar-nav .open .dropdown-menu>li>a,
   .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover,
@@ -198,10 +197,9 @@ h3 {
 }
 
 /* --- font on subject guides list page libguides.ccac.edu ---*/
-#subject-wrapper > div > p > a {
-    font-weight: normal;
+#subject-wrapper>div>p>a {
+  font-weight: normal;
 }
-
 
 /* --- search box ---*/
 #s-lg-guide-header-search {
@@ -265,6 +263,11 @@ li.ui-tabs-active a {
 /* --- best bet button ---*/
 .label-success {
   background-color: #923C3C;
+
+}
+
+.s-lg-az-result-badge-featured, .s-lg-az-result-badge-popular {
+  color: #ffffff !important;
 }
 
 /* --- new button ---*/
@@ -294,16 +297,15 @@ li.ui-tabs-active a {
 
 /* Hide the search box on the A-Z list page*/
 #col-search {
-    display: none;
+  display: none;
 }
 
-#s-lg-az-filter-cols{
-    padding-bottom: 15px;
+#s-lg-az-filter-cols {
+  padding-bottom: 15px;
 }
 
 /* Bootstrap 3.x button with CCAC red background */
 .btn-ccac {
-    background-color: #c41230;
-    color: #ffffff !important;
+  background-color: #c41230;
+  color: #ffffff !important;
 }
-
