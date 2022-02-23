@@ -1,0 +1,161 @@
+<p>Use this tool to convert an Ebscohost or OneSearch URL that&#39;s taken from the browser&#39;s address bar into a working permalink. The URL taken from the browser usually includes session variables that prevent the link from working at a later
+  time. This form will convert that URL into one that works!</p>
+<div class="form-group"><label for="sessionUrl">Enter a URL from OneSearch/Ebscohost</label> <input class="form-control" id="sessionUrl" placeholder="Paste URL here" type="text" /></div>
+<p><button class="btn btn-primary btn-lg" id="btnConvert" type="button">Convert URL</button>&nbsp;<button class="btn btn-primary btn-lg" id="btnReset" type="button">Reset</button></p>
+
+<p>&nbsp;</p>
+
+<div class="row">
+  <div class="well" id="well">
+    <div id="result">&nbsp;</div>
+  </div>
+
+  <p>&nbsp;</p>
+
+  <p>&nbsp;</p>
+
+  <div class="well">
+    <p><b>Here&#39;s an example URL:</b></p>
+
+    <p id="sessionLink">https://web-b-ebscohost-com.ezproxy.ccac.edu/ehost/detail/detail?vid=2&amp;sid=bd584d59-0a3b-4be8-b11e-af496056d3eb%40pdc-v-sessmgr06&amp;bdata=JnNpdGU9ZWhvc3QtbGl2ZSZzY29wZT1zaXRl#AN=146193966&amp;db=ccm</p>
+
+    <p><b>And here&#39;s that same URL after it has been converted by this form:</b></p>
+
+    <p id="permalink">https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&amp;site=eds-live&amp;db=ccm&amp;AN=146193966</p>
+  </div>  <script>
+      $(document).ready(function() {
+        setupForm();
+        const proxy = "https://ezproxy.ccac.edu/login?url=";
+
+        function setupForm() {
+          $('#well').hide();
+          $('#success').hide();
+          $('#sessionUrl').val("");
+          $('#sessionUrl').focus();
+        }
+
+
+        /*This function determines what type of URL is being submitted (EDS or Ebscohost) and passes it to the correct function for processing */
+        function resolveUrl(url) {
+          console.log("resolveUrl 0-12", url.slice(0, 12));
+          console.log("resolveUrl 13-27", url.slice(13, 27));
+          // replace any + signs with a space; the + usually appear between search terms
+          url = url.replace(/%2B/ig, "%20");
+
+          // is this a url for a specific document?
+          //var re = new RegExp("#db=.*");
+          var re = new RegExp("/detail?.*");
+          if (re.test(url)) {
+            return processDocumentUrl(url);
+          }
+
+          // is this an EDS search url? Check for variations of and EDS URL
+          else if ((url.slice(0, 12) === "https://eds." && url.slice(13, 27) === ".ebscohost.com") || (url.slice(0, 12) === "https://eds-" && url.slice(13, 27) === "-ebscohost-com")) {
+            console.log("first else if 67");
+            //https://eds-b-ebscohost-com.ezproxy.ccac.edu/eds/results?vid=2&sid=1d18437c-752e-4d31-b98f-9767ceb85fad%40pdc-v-sessmgr04&bquery=hydro+colloid&bdata=JmNsaTA9RlQxJmNsdjA9WSZ0eXBlPTAmc2VhcmNoTW9kZT1TdGFuZGFyZCZzaXRlPWVkcy1saXZl
+            return processEdsSearchUrl(url);
+          }
+
+          // is this is an Ebscohost database search url? Check for variations of Ehost URLs
+          else if ((url.slice(0, 12) === "https://web." && url.slice(13, 27) === ".ebscohost.com") || (url.slice(0, 12) === "https://web-" && url.slice(13, 27) === "-ebscohost-com")) {
+            console.log("second else if 74");
+            return processEbscohostSearchUrl(url);
+          } else {
+
+            // or is it some other url that we can't deal with?
+            return "error";
+
+          }
+        };
+
+        /* Converts Ebscohost or EDS session URL for a specific document to permalink */
+        function processDocumentUrl(url) {
+          console.log("processDocumentUrl", url)
+          // use re to find AN
+          var reDb = new RegExp("#db=.*");
+          var reAn = new RegExp("#AN=.*");
+          if ( reDb.test(url)  ) {
+            //The URL is valid; convert it to a permalink
+            //Some URLs have the #db field listd first while others have the #AN field listed first
+            var result = new String(url.match(reDb)).replace("#", proxy + "https://search.ebscohost.com/login.aspx?direct=true&site=eds-live&");
+            return result;
+          }
+          else if (reAn.test(url)){
+            var result = new String(url.match(reAn)).replace("#", proxy + "https://search.ebscohost.com/login.aspx?direct=true&site=eds-live&");
+            return result;
+          }
+          else {
+            return "error";
+          };
+
+        };
+        /* Converts Ebscohost search session URLs to permalinks */
+        function processEbscohostSearchUrl(url) {
+          var re = new RegExp("&bquery=.*&bdata=.*");
+          if (re.test(url)) {
+            //The URL is valid; convert it to a permalink
+            var result = new String(url.match(re)).replace("&", proxy + "https://web.b.ebscohost.com/ehost/results?vid=0&");
+            //result = result.slice(0, -1); //remove the ending &
+            return result;
+          } else {
+            return "error";
+          };
+        };
+
+        /* Converts EDS session URLs to permalinks */
+        function processEdsSearchUrl(url) {
+          var re = new RegExp("&bquery=.*&");
+          if (re.test(url)) {
+            //The URL is valid; convert it to a permalink
+            var result = new String(url.match(re)).replace("&", proxy + "https://search.ebscohost.com/login.aspx?direct=true&type=0&searchMode=Standard&site=eds-live&");
+            result = result.slice(0, -1); //remove the ending &
+            console.log("117", result);
+            return result;
+          } else {
+            return "error";
+          };
+        };
+
+        function convertURL() {
+          $('#success').hide();
+
+          // get the URL that th user submitted
+          var sessionUrl = $('#sessionUrl').val().trim();
+          $('#sessionUrl').val(sessionUrl);
+          var permalink = resolveUrl(sessionUrl);
+          var errorMsg = "<b>Sorry, there was an error with that URL. Please check it and try again!</b>";
+          var successMsg = "<div id='success'><b>Success! Here's a permalink that should get you to that page: <br><br></b></div>"
+
+          if (permalink != "error") {
+            $('#result').html("<a href='" + permalink + "' target='_blank'>" + permalink + "</a>");
+            $('#well').prepend(successMsg);
+            $('#well').fadeIn();
+
+          } else {
+            //The URL is invalid; show the error message
+            $('#result').html(errorMsg);
+            $('#well').fadeIn();
+          }
+        };
+
+        $('#btnConvert').click(function() {
+          convertURL();
+        });
+
+        $('#btnReset').click(function() {
+          setupForm();
+        });
+
+        // process the form when the enter button is pressed
+        $(document).keypress(function(e) {
+          if (e.keyCode === 13) {
+            convertURL();
+          }
+          e.cancelBubble = true;
+          if (e.stopPropagation) e.stopPropagation();
+        });
+
+      });
+    </script>
+
+</div>
