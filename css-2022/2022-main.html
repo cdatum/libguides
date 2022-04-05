@@ -1,0 +1,223 @@
+<!-- BEGIN CONTENT -->
+<p><span style="font-family: 'Roboto Slab', serif; font-size: 40px; font-weight: 700;">CCAC Library</span></p>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body" style="background-color: #ececec;">
+                <!-- OneSearch -->
+                <!-- EBSCOhost Custom Search Box Begins -->
+                <script src="//libapps.s3.amazonaws.com/sites/218/include/ebscohostsearch.js" type="text/javascript">
+                </script>
+                <style type="text/css">
+                    .ebscohostCustomSearchBox {
+                        font-family: Helvetica, Verdana, Arial, sans-serif;
+                    }
+                </style>
+                <p><span style="font-size:16px;"><span style="font-weight: bold;">Find books, articles, videos, and more
+                            from a single search box.</span></span></p>
+                <!-- OneSearch divs -->
+
+                <div class="row">
+                    <div class="col-md-3 col-sm-4 col-xs-5" style="background-color: #ECECEC;"><img alt="OneSearch"
+                            class="img-responsive" loading="lazy"
+                            src="https://libapps.s3.amazonaws.com/customers/207/images/onesearch-small.gif" /></div>
+
+                    <div class="col-md-9 col-sm-8 col-xs-7">
+                        <form action="" aria-label="OneSearch search" class="ebscohostCustomSearchBox" method="post"
+                            onsubmit="return ebscoHostSearchGo(this);" role="search" style="overflow:hidden;"><input
+                                id="ebscohostwindow" name="ebscohostwindow" type="hidden" value="1" /> <input
+                                id="ebscohosturl" name="ebscohosturl" type="hidden"
+                                value="https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&amp;site=eds-live&amp;scope=site&amp;type=0&amp;custid=ccallegy&amp;groupid=main&amp;profid=eds&amp;lang=en&amp;authtype=cookie,ip,url" />
+                            <input id="ebscohostsearchsrc" name="ebscohostsearchsrc" type="hidden" value="db" /> <input
+                                id="ebscohostsearchmode" name="ebscohostsearchmode" type="hidden" value="+" /> <input
+                                id="ebscohostkeywords" name="ebscohostkeywords" type="hidden" value="" /> <input
+                                aria-label="OneSearch search" class="form-control" id="ebscohostsearchtext"
+                                name="ebscohostsearchtext" placeholder="Search here" size="50"
+                                style="font-size:12pt;padding-left:5px;margin-left:0px;" title="Search here"
+                                type="text" />
+                            <p><input class="button btn btn-default" id="searchButton" style="margin-top: 15px;"
+                                    title="Search" type="submit" value="Search" /></p>
+                        </form>
+
+                        <p><span class="ebscohost-title" style="font-weight:bold;"><a
+                                    href="//ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&amp;setup=1&amp;custid=ccallegy&amp;groupid=main&amp;profid=eds&amp;mode=and&amp;lang=en&amp;authtype=cookie,ip,url"
+                                    target="_blank">Advanced Search</a></span></p>
+                    </div>
+                </div>
+                <!--end OneSearch divs -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <!--START SEARCH & FIND -->
+        <div class="panel panel-default">
+            <div class="panel-heading"><span style="font-size:18px;"><strong>Search &amp; Find</strong></span></div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 hidden-xs"><span aria-hidden="true"
+                            class="fa fa-search fa-5x fa-pull-left fa-border" style="color: #b22222;"
+                            title="Search"></span></div>
+
+                    <div class="col-md-7 col-sm-7 col-xs-12"><a href="https://libguides.ccac.edu/az.php">Databases: A -
+                            Z</a><br />
+                        <a href="https://libguides.ccac.edu/guides">Subject Guides</a><br />
+                        <a href="https://libguides.ccac.edu/campus">Course Guides</a><br />
+                        <a href="https://ccac.ent.sirsi.net/client/en_US/default">Books</a><br />
+                        <a href="https://libguides.ccac.edu/ebscohostebooks">eBooks</a><br />
+                        <a href="https://libguides.ccac.edu/streamingvideo">Streaming Videos</a><br />
+                        <a
+                            href="https://ezproxy.ccac.edu/login?url=https://search.ebscohost.com/login.aspx?direct=true&amp;db=edspub&amp;profile=eds&amp;plp=1">Journal
+                            Finder</a><br />
+                        <a href="https://libguides.ccac.edu/allGuides">All Research Guides</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--END SEARCH & FIND -->
+    </div>
+
+    <div class="col-md-6 col-sm-6 col-xs-12">
+        <!-- HOURS START -->
+        <script>
+            // Pull today's hours from LibCal & put into table
+            $(document).ready(function () {
+                // get today's date, set format (e.g. Tuesday, August 11), and display it
+                var dateNow = new Date();
+                var format = { weekday: 'long', month: 'long', day: 'numeric' };
+                var displayDate = dateNow.toLocaleDateString(undefined, format);
+                $("#todaysHours").prepend("<div id='dateToday'><p>" + displayDate + "</p></div>");
+
+                $("#dateToday").css({ "font-size": "1.1em", "font-weight": "bold" });
+
+                // get the calendar feeds and display the hours
+                var calFeeds = ["https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=7958&format=json&systemTime=1&callback=?", "https://ccac.libcal.com/api_hours_today.php?iid=4334&lid=13700&format=json&systemTime=1&callback=?"];
+                $.each(calFeeds, function (i, json) {
+                    $.getJSON(json, function (json) {
+                        $('#hoursToday').append('<p><b>' + json.locations[0].name + '</b><br>' + json.locations[0].rendered + '</p>');
+                    });
+                });
+            });
+        </script>
+        <!--Chat script begin-->
+        <script src="https://v2.libanswers.com/load_chat.php?hash=90f3f9ca0ea131fad38b7ebf6e330ad3"></script>
+        <!--Chat script end-->
+        <div class="panel panel-default">
+            <div class="panel-heading"><span style="font-size:18px;"><strong>Library Hours</strong></span></div>
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-5 col-sm-5 hidden-xs"><span aria-hidden="true"
+                            class="fa fa-clock-o fa-5x fa-pull-left fa-border" style="color: #b22222;"
+                            title="Hours"></span></div>
+
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        <div id="libchat_90f3f9ca0ea131fad38b7ebf6e330ad3"
+                            style="padding-top: 15px; padding-bottom: 15px;">&nbsp;</div>
+
+                        <div id="todaysHours">&nbsp;</div>
+
+                        <div id="hoursToday" style="padding-left: 15px;">&nbsp;</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12" style="padding-top: 15px;">
+                        <p>Visit our <a href="https://libguides.ccac.edu/hours">calendar page</a> for complete hours and
+                            contact info.</p>
+                    </div>
+
+                    <div>&nbsp;</div>
+                </div>
+            </div>
+        </div>
+        <!-- END HOUR -->
+    </div>
+</div>
+<!-- START GALLERY & HELP ROW -->
+
+<div class="row">
+    <div class="col-xs-12 col-md-12">
+        <!-- START GALLERY -->
+        <div align="center" class="well"><iframe height="350px" id="s-lg-widget-frame-1592573883545"
+                name="s-lg-widget-frame-1592573883545" scrolling="no"
+                src="//lgapi-us.libapps.com/widget_box.php?site_id=218&amp;widget_type=8&amp;output_format=2&amp;widget_title=home+page+gallery&amp;widget_height=&amp;widget_width=&amp;widget_embed_type=1&amp;guide_id=1051685&amp;box_id=24248238&amp;map_id=28451900&amp;content_only=0&amp;include_jquery=0&amp;config_id=1592573883545"
+                style="border: 0px solid #bbb; border-radius: 4px;" width="330px"></iframe></div>
+        <!-- END GALLERY -->
+    </div>
+</div>
+
+<div class="row">
+<div class="col-md-6 col-sm-6 col-xs-12">
+    <!--RESEARCH HELP START-->
+    <div class="panel panel-default">
+        <div class="panel-heading"><span style="font-size:18px;"><strong>Get Help</strong></span></div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-5 col-sm-5 hidden-xs"><span aria-hidden="true"
+                        class="fa fa-question-circle-o fa-5x fa-pull-left fa-border" style="color: #b22222;"
+                        title="Get help"></span></div>
+
+                <div class="col-md-7 col-sm-7 col-xs-12">
+                    <p><a href="https://libguides.ccac.edu/help">Get Help</a><br />
+                        <a href="mailto:library@ccac.edu?subject=Research%20Help%3F">library@ccac.edu</a><br />
+                        <a href="https://ccac.libcal.com/appointments">Make an Appointment</a><br />
+                        <a href="https://ccac.libanswers.com/">FAQs</a><br />
+                        <a href="https://libguides.ccac.edu/citations">Get Citation Help</a><br />
+                        <a href="https://libguides.ccac.edu/NoodleTools">NoodleTools</a><br />
+                        <a href="https://libguides.ccac.edu/webEvaluation">Evaluate a Website</a><br />
+                        <a href="https://libguides.ccac.edu/off-campus-login">Access from Off-Campus</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END RESEARCH HELP-->
+    <!--ABOUT US START-->
+
+    <div class="panel panel-default">
+        <div class="panel-heading"><span style="font-size:18px;"><strong>About Us</strong></span></div>
+
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-5 col-sm-5 hidden-xs"><span aria-hidden="true"
+                        class="fa fa-user fa-5x fa-pull-left fa-border" style="color: #b22222;" title="About us"></span>
+                </div>
+
+                <div class="col-md-7 col-sm-7 col-xs-12">
+                    <p>
+                        <a href="https://libguides.ccac.edu/staff">Staff</a><br />
+                        <a href="https://libguides.ccac.edu/services/circulation">Borrowing</a><br />
+                        <a href="https://libguides.ccac.edu/services/reserves">Reserves</a><br />
+                        <a href="https://libguides.ccac.edu/services/reference">Reference</a><br />
+                        <a href="https://libguides.ccac.edu/services/interlibraryloan">Interlibrary Loan</a><br />
+                        <a href="https://libguides.ccac.edu/faculty">Services for Faculty</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END ABOUT US-->
+    <!--iCONNECT START-->
+
+    <div class="panel panel-default">
+        <div class="panel-heading"><span aria-hidden="true" class="fa fa-cogs fa-2x" style="color: #b22222;"
+                title="iCONNECT - Learn to research"></span>&nbsp;&nbsp; <span style="font-size:18px;"><strong>Learn
+                    to Research</strong></span></div>
+
+        <div class="panel-body">
+            <div align="center"><strong><a href="https://libguides.ccac.edu/iconnect" target="_blank"><img
+                            alt="iCONNECT" loading="lazy"
+                            src="//libapps.s3.amazonaws.com/customers/207/images/iconnectLogo.jpg" /></a></strong>
+            </div>
+        </div>
+    </div>
+    <!--END iCONNECT-->
+</div>
+<!-- END CONTENT -->
+</div>

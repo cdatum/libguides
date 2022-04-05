@@ -1,0 +1,439 @@
+/*
+New fonts for 2019 CCAC website:
+font-family: 'Roboto Slab', serif; (for h1)
+font-family: 'Roboto', sans-serif;  (for hyperlinks - bold)
+
+*/
+:root {
+  /* CCAC red */
+  --ccac-primary: #a6192e;
+  /*0 149 169 */
+  /* library teal */
+  --ccac-secondary: #0097a9;
+  /* Grays, blues, and others */
+  --ccac-coolgray-1c: #D9D8D6;
+  --ccac-coolgray-10c: #63666A;
+  --ccac-navy: #003057;
+  --ccac-medium-blue: #316094;
+  --ccac-gold: #DAA900;
+  /* fonts */
+  --font-family-headers: "Roboto Slab", serif;
+  --font-family-body: "Roboto", sans-serif;
+}
+
+/* ---Spacing for database lists --- */
+.s-lg-widget-list-description, .s-lg-link-desc, .s-lg-database-desc {
+  line-height: 1.2em;
+  padding-bottom: 1.3em;
+}
+
+/* Hide the bullet for the lists */
+.s-lg-link-list, .s-lg-system-list {
+  list-style-type: none !important;
+  list-style: none !important;
+}
+
+.s-lg-system-list>li {
+  padding-bottom: 10px;
+}
+
+/* Font size for UL links */
+.s-lg-link-list>li>div>span>a, .s-lg-link-list>li>div>a, .s-lg-system-list>li>a {
+  font-size: 1.2em;
+  line-height: 1em;
+}
+
+/* Hide bullet on widget-based database lists */
+div[id^="s-lg-widget-"] ul>li {
+  list-style: none;
+  padding-bottom: 12px;
+  line-height: 1.3em;
+}
+
+/* Font size for widget-based database list */
+div[id^="s-lg-widget-"] li>a {
+  font-size: 1.3em;
+  line-height: 1em;
+}
+
+/*---remove skiplink space ---*/
+#s-lg-public-skiplink {
+  padding: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+}
+
+/* --- header and navbar --- */
+#header {
+  width: 100%;
+  height: 75px;
+  position: relative;
+  background: var(--ccac-primary);
+  margin: 0px auto 0px auto;
+  padding: 0;
+  float: left;
+}
+
+.logo {
+  margin: 0;
+  float: left;
+  height: 40px;
+  padding: 10px;
+}
+
+.container-fluid {
+  background-color: var(--ccac-secondary);
+}
+
+.navbar-nav {
+  background-color: var(--ccac-secondary);
+  margin-top: 0;
+  width: 100%;
+  border-color: #000
+}
+
+.navbar-nav li a {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 750
+}
+
+.navbar-nav li .dropdown-menu li a {
+  color: #000
+}
+
+.navbar-nav .open .dropdown-menu .active a,
+.navbar-nav .open .dropdown-menu .active a:hover,
+.navbar-nav .open .dropdown-menu .active a:focus {
+  color: #000;
+  background-color: #fff
+}
+
+.navbar-toggle {
+  border-color: #ffffff;
+}
+
+.navbar-collapse,
+.navbar-form {
+  border-color: #fff
+}
+
+.navbar-nav .navbar-brand,
+.navbar-nav .navbar-brand:hover,
+.navbar-default .navbar-brand:focus,
+.navbar-nav .navbar-text,
+.navbar-link,
+.navbar-link:hover {
+  color: #fff
+}
+
+.navbar-nav li a:hover,
+.navbar-nav li a:focus,
+.navbar-nav li .dropdown-menu li a:hover,
+.navbar-nav li .dropdown-menu li a:focus {
+  color: #fff;
+  background-color: var(--ccac-primary)
+}
+
+.navbar-nav li .dropdown-menu,
+.navbar-nav li .dropdown-menu li .divider,
+.navbar-toggle .icon-bar {
+  background-color: #fff
+}
+
+.navbar-nav .open a:focus,
+.navbar-toggle:hover,
+.navbar-toggle:focus {
+  background-color: var(--ccac-primary)
+}
+
+@media (max-width: 992px) {
+
+  /*767*/
+  .navbar-default .navbar-nav .open .dropdown-menu>.active>a,
+  .navbar-default .navbar-nav .open .dropdown-menu>.active>a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu>.active>a:focus {
+    color: #fff;
+    background-color: #000
+  }
+
+  .navbar-default .navbar-nav .open .dropdown-menu>li>a,
+  .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus {
+    color: #000
+  }
+}
+
+/* --- body, text, and links --- */
+img {
+  box-shadow: none;
+  border-style: none;
+  border: 0;
+}
+
+body,
+body.s-lg-guide-body {
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  color: #000000;
+  line-height: 21px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+a:link,
+a:visited {
+  color: var(--ccac-primary);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  color: var(--ccac-primary);
+  text-decoration: underline;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-family-headers);
+  color: var(--ccac-navy);
+  text-transform: uppercase;
+}
+
+h1 {
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.875rem;
+  line-height: 1.75;
+}
+
+h3 {
+  font-size: 1.7rem;
+  line-height: 1.75;
+}
+
+/* --- font on subject guides list page libguides.ccac.edu ---*/
+#subject-wrapper>div>p>a {
+  font-weight: normal;
+}
+
+/* --- search box ---*/
+#s-lg-guide-header-search {
+  display: none;
+}
+
+/* --- hide the breadcrumb ---*/
+#s-lib-bc {
+  display: none;
+}
+
+/* --- Add padding to guide header/title ---*/
+#s-lg-guide-header {
+  padding-top: 25px;
+}
+
+/* --- box titles ---*/
+.s-lib-box-title {
+  padding: 10px;
+  font-size: 1.25em !important;
+  border-bottom: 0px solid #d9d8d6;
+  border-left: 1px solid #d9d8d6 border-radius: 0;
+  font-family: var(--font-family-headers);
+}
+
+/* --- bar under tabs ---*/
+#s-lg-guide-tabs-title-bar {
+  border-top: 1px solid #666666;
+}
+
+/* --- font in boxes ---*/
+.s-lib-box {
+  font-size: 14px;
+  color: #000000;
+}
+
+/* --- font size for books from catalog ---*/
+.s-lg-book-title, .s-lg-book-author {
+  font-family: var(--font-family-body);
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 1em;
+}
+
+s-lg-book-by {
+  font-family: var(--font-family-body);
+  font-weight: bold;
+  font-size: 1em;
+  line-height: 1em;
+}
+
+/* --- tabs in boxes ---*/
+li.ui-tabs-active a {
+  background: var(--ccac-primary);
+  font-family: var(--font-family-body);
+  font-weight: bold;
+  color: #FFF !important;
+  text-decoration: none;
+}
+
+.ui-tabs-anchor {
+  background-color: #666666;
+  font-family: var(--font-family-body);
+  font-weight: bold;
+  color: #FFF !important;
+  text-decoration: none;
+}
+
+/* --- best bet label ---*/
+.label-success {
+  background-color: #923C3C;
+}
+
+.s-lg-az-result-badge-featured, .s-lg-az-result-badge-popular {
+  color: #ffffff !important;
+}
+
+/* --- new label ---*/
+.label-info {
+  background-color: #923C3C;
+}
+
+/* --- popular  label ---*/
+.label-primary {
+  background-color: #923C3C;
+}
+
+/* --- new  label ---*/
+.label {
+  background-color: #923C3C;
+}
+
+/* --- email button ---*/
+.s-lib-profile-email {
+  display: none;
+}
+
+/*--- Hide the trial database box on the A-Z list page ---*/
+#s-lg-az-trials-div {
+  display: none !important;
+}
+
+/* Hide the search box on the A-Z list page*/
+#col-search {
+  display: none;
+}
+
+#s-lg-az-filter-cols {
+  padding-bottom: 15px;
+}
+
+/* 2022 button style */
+.btn-default {
+  background-color: #003057;
+  color: #fff;
+  border-color: #003057;
+}
+
+.btn-default:before {
+  background-color: #a6192e;
+  transition: all .6s;
+}
+
+.btn-default:hover, .btn-default:focus {
+  color: #ffffff;
+  border-color: #a6192e;
+}
+
+/* Bootstrap 3.x button with CCAC red background */
+.btn-ccac {
+  background-color: var(--ccac-primary);
+  color: #ffffff !important;
+  border-radius: 0px;
+}
+
+/* Bootstrap 3.x button with CCAC blue background */
+.btn-ccac-blue {
+  background-color: var(--ccac-navy);
+  color: #ffffff !important;
+  border-radius: 0px;
+}
+
+/* Panels with CCAC styling */
+.panel-ccac {
+  /* Use this in place of panel-default, panel-info, etc. */
+}
+
+.panel-heading-ccac {
+  background-color: var(--ccac-primary);
+  color: #ffffff;
+  padding: 10px;
+  font-size: 2.375rem !important;
+  border-left: 1px solid var(--ccac-primary);
+  border-radius: 0;
+  font-family: var(--font-family-headers);
+}
+
+.panel-heading-ccac>span.fa {
+  color: var(--ccac-gold);
+}
+
+.panel-body-ccac {
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color: var(--ccac-coolgray-1c);
+  padding: 10px 15px 10px 30px;
+  line-height: 2em;
+}
+
+/*Resource List*/
+.resource-list {
+  list-style: none;
+  margin: 20px auto;
+  padding-left: 0;
+  font-weight: 700;
+}
+
+.resource-list li {
+  display: block;
+  clear: both;
+  margin: 10px 0 !important;
+  padding-bottom: 10px;
+  position: relative;
+}
+
+.resource-list li a {
+  text-decoration: none;
+  color: #a6192e;
+}
+
+.resource-list li:after {
+  content: "";
+  position: absolute;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #e6e6e6;
+}
+
+.resource-list li:before {
+  content: "";
+  position: absolute;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: #daa900;
+  visibility: hidden;
+  width: 0;
+  transition: width .35s ease-out, visibility .35s ease-out;
+  z-index: 1;
+  padding: 0;
+  top: unset;
+  right: unset;
+}
+
+.resource-list li:hover:before, .resource-list li:focus:before {
+  visibility: visible;
+  width: 100%;
+}
