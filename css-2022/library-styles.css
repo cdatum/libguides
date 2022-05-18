@@ -8,8 +8,11 @@ font-family: 'Roboto', sans-serif;  (for hyperlinks - bold)
   /* CCAC red */
   --ccac-primary: #a6192e;
   /*0 149 169 */
+
+  --ccac-secondary: #003057;
   /* library teal */
-  --ccac-secondary: #0097a9;
+  --ccac-library-secondary: #0097a9;
+
   /* Grays, blues, and others */
   --ccac-coolgray-1c: #D9D8D6;
   --ccac-coolgray-10c: #63666A;
@@ -22,13 +25,16 @@ font-family: 'Roboto', sans-serif;  (for hyperlinks - bold)
 }
 
 /* ---Spacing for database lists --- */
-.s-lg-widget-list-description, .s-lg-link-desc, .s-lg-database-desc {
+.s-lg-widget-list-description,
+.s-lg-link-desc,
+.s-lg-database-desc {
   line-height: 1.2em;
   padding-bottom: 1.3em;
 }
 
 /* Hide the bullet for the lists */
-.s-lg-link-list, .s-lg-system-list {
+.s-lg-link-list,
+.s-lg-system-list {
   list-style-type: none !important;
   list-style: none !important;
 }
@@ -38,7 +44,9 @@ font-family: 'Roboto', sans-serif;  (for hyperlinks - bold)
 }
 
 /* Font size for UL links */
-.s-lg-link-list>li>div>span>a, .s-lg-link-list>li>div>a, .s-lg-system-list>li>a {
+.s-lg-link-list>li>div>span>a,
+.s-lg-link-list>li>div>a,
+.s-lg-system-list>li>a {
   font-size: 1.2em;
   line-height: 1em;
 }
@@ -174,11 +182,12 @@ img {
 body,
 body.s-lg-guide-body {
   font-family: var(--font-family-body);
-  font-size: 14px;
-  color: #000000;
-  line-height: 21px;
   padding-left: 15px;
   padding-right: 15px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+
 }
 
 a:link,
@@ -193,7 +202,9 @@ a:hover {
   text-decoration: underline;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--font-family-headers);
   color: var(--ccac-navy);
   text-transform: uppercase;
@@ -223,10 +234,7 @@ h3 {
   display: none;
 }
 
-/* --- hide the breadcrumb ---*/
-#s-lib-bc {
-  display: none;
-}
+
 
 /* --- Add padding to guide header/title ---*/
 #s-lg-guide-header {
@@ -238,7 +246,8 @@ h3 {
   padding: 10px;
   font-size: 1.25em !important;
   border-bottom: 0px solid #d9d8d6;
-  border-left: 1px solid #d9d8d6 border-radius: 0;
+  border-left: 1px solid #d9d8d6;
+  border-radius: 0;
   font-family: var(--font-family-headers);
 }
 
@@ -254,7 +263,8 @@ h3 {
 }
 
 /* --- font size for books from catalog ---*/
-.s-lg-book-title, .s-lg-book-author {
+.s-lg-book-title,
+.s-lg-book-author {
   font-family: var(--font-family-body);
   font-weight: bold;
   font-size: 1.2em;
@@ -290,7 +300,8 @@ li.ui-tabs-active a {
   background-color: #923C3C;
 }
 
-.s-lg-az-result-badge-featured, .s-lg-az-result-badge-popular {
+.s-lg-az-result-badge-featured,
+.s-lg-az-result-badge-popular {
   color: #ffffff !important;
 }
 
@@ -328,7 +339,7 @@ li.ui-tabs-active a {
   padding-bottom: 15px;
 }
 
-/* 2022 button style */
+/* 2022 button style 
 .btn-default {
   background-color: #003057;
   color: #fff;
@@ -340,10 +351,12 @@ li.ui-tabs-active a {
   transition: all .6s;
 }
 
-.btn-default:hover, .btn-default:focus {
+.btn-default:hover,
+.btn-default:focus {
   color: #ffffff;
   border-color: #a6192e;
 }
+*/
 
 /* Bootstrap 3.x button with CCAC red background */
 .btn-ccac {
@@ -355,6 +368,13 @@ li.ui-tabs-active a {
 /* Bootstrap 3.x button with CCAC blue background */
 .btn-ccac-blue {
   background-color: var(--ccac-navy);
+  color: #ffffff !important;
+  border-radius: 0px;
+}
+
+/* Bootstrap 3.x button with CCAC blue background */
+.btn-ccac-secondary {
+  background-color: var(--ccac-secondary);
   color: #ffffff !important;
   border-radius: 0px;
 }
@@ -433,7 +453,8 @@ li.ui-tabs-active a {
   right: unset;
 }
 
-.resource-list li:hover:before, .resource-list li:focus:before {
+.resource-list li:hover:before,
+.resource-list li:focus:before {
   visibility: visible;
   width: 100%;
 }
