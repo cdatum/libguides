@@ -414,7 +414,7 @@ var infolit = [{
   },
   {
     "desc": "This video is one of three videos on the Chicago Style of citations, focusing on journals (see the companion videos for information on book and website citations). It focuses on the note-bibliography style.",
-    "group": "citatioins",
+    "group": "citations",
     "id": "b321659a61eb4a60849d5fc07416bd06",
     "title": "Video: Chicago Style 17th ed. Journals"
   },
