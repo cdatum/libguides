@@ -301,7 +301,8 @@ li.ui-tabs-active a {
 }
 
 .s-lg-az-result-badge-featured,
-.s-lg-az-result-badge-popular {
+.s-lg-az-result-badge-popular,
+.s-lg-az-result-badge-trial {
   color: #ffffff !important;
 }
 
