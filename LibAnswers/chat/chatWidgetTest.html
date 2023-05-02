@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Chat Online?</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    </head>
+    <body>
+        <script>
+            $(document).ready(function () {
+
+                //widget online? api code
+                var isOnline = "https://api2.libanswers.com/1.0/chat/widgets/status/10961";
+                //var online = "";
+                $.getJSON(isOnline, function (object) {
+                    //online = object.online;
+                    console.log(object.online);
+                    if (object.online) {
+                        $("#status").text("Chat is online!");
+                    } else {
+                        $("#status").text("Chat is offline right now, try our FAQ!");
+                    }
+                });
+
+            });
+        </script>
+
+        <div id="status"></div>
+    </body>
+
+</html>

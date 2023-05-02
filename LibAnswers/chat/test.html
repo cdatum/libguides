@@ -1,0 +1,38 @@
+<!--HOURS Start-->
+<script>
+
+    $(document).ready(function(){
+       var hours = "https://api3.libcal.com/api_hours_grid.php?iid=4334&format=json&weeks=1&systemTime=1&callback=?";
+       var rows = "";
+       var dateFormat = {month: '2-digit', day: 'numeric'};
+        $.getJSON(hours, function (json) {
+          $.each(json.locations[0].weeks, function (key, day) {
+               $.each(day, function (day, hours) {
+                    //2018-12-09
+                    var mm = this.date.slice(5, 7);
+                    var dd = this.date.slice(8, 10);
+                    var yy = this.date.slice(0, 4)
+
+                    rows += "<tr><td>" + day + " (" + mm + "/" + dd + ")</td><td>" + this.rendered + "</td></tr>"
+                  })
+                  $("#hoursTable > tbody:last-child").append(rows);
+                  $("#hoursTable td").css({"padding": "5px", "text-transform" : "uppercase"});
+            })
+        });
+    });
+
+</script>
+
+
+<div class="col-md-4 col-sm-6 col-xs-6">
+<div class="panel panel-default">
+<div class="panel-heading"><span class="fa fa-clock-o fa-2x" style="color: #b22222;"></span>&nbsp;&nbsp; <span style="font-size:18px;"><strong>This Week's Hours</strong></span></div>
+
+<div class="panel-body">
+<table id="hoursTable" class="table table-striped">
+<tbody></tbody>
+</table>
+<a href="https://ccac.libcal.com" target="_blank">Complete Hours</a></div>
+</div>
+</div>
+<!--HOURS End-->
