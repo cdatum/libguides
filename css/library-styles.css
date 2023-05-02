@@ -1,0 +1,329 @@
+@charset "utf-8";
+
+/*
+New fonts for 2019 CCAC website:
+font-family: 'Roboto Slab', serif; (for h1)
+font-family: 'Roboto', sans-serif;  (for hyperlinks - bold)
+
+*/
+:root {
+  --ccac-primary: #a6192e;
+  /* CCAC red */
+  --ccac-secondary: #0097a9;
+  /*0 149 169 */
+  /* librdary teal */
+}
+
+/* ---Spacing for database lists --- */
+.s-lg-widget-list-description, .s-lg-link-desc, .s-lg-database-desc {
+  line-height: 1.2em;
+  padding-bottom: 1.3em;
+}
+
+/* Hide the bullet for the lists */
+.s-lg-link-list, .s-lg-system-list {
+  list-style-type: none !important;
+  list-style: none !important;
+}
+
+.s-lg-system-list>li {
+  padding-bottom: 10px;
+}
+
+/* Font size for UL links */
+.s-lg-link-list>li>div>span>a, .s-lg-link-list>li>div>a, .s-lg-system-list>li>a {
+  font-size: 1.2em;
+  line-height: 1em;
+}
+
+/* Hide bullet on widget-based database lists */
+div[id^="s-lg-widget-"] ul>li {
+  list-style: none;
+  padding-bottom: 12px;
+  line-height: 1.3em;
+}
+
+/* Font size for widget-based database list */
+div[id^="s-lg-widget-"] li>a {
+  font-size: 1.3em;
+  line-height: 1em;
+}
+
+/*---remove skiplink space ---*/
+#s-lg-public-skiplink {
+  padding: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+}
+
+/* --- header and navbar --- */
+#header {
+  width: 100%;
+  height: 75px;
+  position: relative;
+  background: var(--ccac-primary);
+  margin: 0px auto 0px auto;
+  padding: 0;
+  float: left;
+}
+
+.logo {
+  margin: 0;
+  float: left;
+  height: 40px;
+  padding: 10px;
+}
+
+.container-fluid {
+  background-color: var(--ccac-secondary);
+}
+
+.navbar-nav {
+  background-color: var(--ccac-secondary);
+  margin-top: 0;
+  width: 100%;
+  border-color: #000
+}
+
+.navbar-nav li a {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 750
+}
+
+.navbar-nav li .dropdown-menu li a {
+  color: #000
+}
+
+.navbar-nav .open .dropdown-menu .active a,
+.navbar-nav .open .dropdown-menu .active a:hover,
+.navbar-nav .open .dropdown-menu .active a:focus {
+  color: #000;
+  background-color: #fff
+}
+
+.navbar-toggle {
+  border-color: #ffffff;
+}
+
+.navbar-collapse,
+.navbar-form {
+  border-color: #fff
+}
+
+.navbar-nav .navbar-brand,
+.navbar-nav .navbar-brand:hover,
+.navbar-default .navbar-brand:focus,
+.navbar-nav .navbar-text,
+.navbar-link,
+.navbar-link:hover {
+  color: #fff
+}
+
+.navbar-nav li a:hover,
+.navbar-nav li a:focus,
+.navbar-nav li .dropdown-menu li a:hover,
+.navbar-nav li .dropdown-menu li a:focus {
+  color: #fff;
+  background-color: var(--ccac-primary)
+}
+
+.navbar-nav li .dropdown-menu,
+.navbar-nav li .dropdown-menu li .divider,
+.navbar-toggle .icon-bar {
+  background-color: #fff
+}
+
+.navbar-nav .open a:focus,
+.navbar-toggle:hover,
+.navbar-toggle:focus {
+  background-color: var(--ccac-primary)
+}
+
+@media (max-width: 992px) {
+
+  /*767*/
+  .navbar-default .navbar-nav .open .dropdown-menu>.active>a,
+  .navbar-default .navbar-nav .open .dropdown-menu>.active>a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu>.active>a:focus {
+    color: #fff;
+    background-color: #000
+  }
+
+  .navbar-default .navbar-nav .open .dropdown-menu>li>a,
+  .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus {
+    color: #000
+  }
+}
+
+/* --- body, text, and links --- */
+img {
+  box-shadow: none;
+  border-style: none;
+  border: 0;
+}
+
+body,
+body.s-lg-guide-body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #000000;
+  line-height: 21px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+a:link,
+a:visited {
+  color: var(--ccac-primary);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  color: var(--ccac-primary);
+  text-decoration: underline;
+}
+
+h1, h2, h3 {
+  font-family: 'Roboto Slab', serif;
+}
+
+h1 {
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+h3 {
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+/* --- font on subject guides list page libguides.ccac.edu ---*/
+#subject-wrapper>div>p>a {
+  font-weight: normal;
+}
+
+/* --- search box ---*/
+#s-lg-guide-header-search {
+  display: none;
+}
+
+/* --- hide the breadcrumb ---*/
+#s-lib-bc {
+  display: none;
+}
+
+/* --- Add padding to guide header/title ---*/
+#s-lg-guide-header {
+  padding-top: 25px;
+}
+
+/* --- box titles ---*/
+.s-lib-box-title {
+  background-color: #f5f5f5;
+  background-image: none;
+  color: #000000;
+  font-size: 18px !important;
+  border-bottom: 0px solid #cccccc;
+  border-radius: 0;
+  font-family: sans-serif;
+}
+
+/* --- bar under tabs ---*/
+#s-lg-guide-tabs-title-bar {
+  border-top: 1px solid #666666;
+}
+
+/* --- font in boxes ---*/
+.s-lib-box {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: #000000;
+}
+
+/* --- font size for books from catalog ---*/
+.s-lg-book-title, .s-lg-book-author {
+  font-family: 'Roboto', serif;
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 1em;
+}
+
+s-lg-book-by {
+  font-family: 'Roboto', serif;
+  font-weight: bold;
+  font-size: 1em;
+  line-height: 1em;
+}
+
+/* --- tabs in boxes ---*/
+li.ui-tabs-active a {
+  background: var(--ccac-primary);
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  color: #FFF !important;
+  text-decoration: none;
+}
+
+.ui-tabs-anchor {
+  background-color: #666666;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  color: #FFF !important;
+  text-decoration: none;
+}
+
+/* --- best bet button ---*/
+.label-success {
+  background-color: #923C3C;
+}
+
+.s-lg-az-result-badge-featured, .s-lg-az-result-badge-popular {
+  color: #ffffff !important;
+}
+
+/* --- new button ---*/
+.label-info {
+  background-color: #923C3C;
+}
+
+/* --- popular  button ---*/
+.label-primary {
+  background-color: #923C3C;
+}
+
+/* --- new  button ---*/
+.label {
+  background-color: #923C3C;
+}
+
+/* --- email button ---*/
+.s-lib-profile-email {
+  display: none;
+}
+
+/*--- Hide the trial database box on the A-Z list page ---*/
+#s-lg-az-trials-div {
+  display: none !important;
+}
+
+/* Hide the search box on the A-Z list page*/
+#col-search {
+  display: none;
+}
+
+#s-lg-az-filter-cols {
+  padding-bottom: 15px;
+}
+
+/* Bootstrap 3.x button with CCAC red background */
+.btn-ccac {
+  background-color: var(--ccac-primary);
+  color: #ffffff !important;
+}

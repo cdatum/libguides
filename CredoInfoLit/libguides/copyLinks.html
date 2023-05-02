@@ -1,0 +1,154 @@
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css"
+        integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <!-- jQuery and jQuery UI -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+        integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd"
+        crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript"
+        src="https://libapps.s3.amazonaws.com/sites/218/include/CredoInfoList-CompleteList.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            /* these constants are the base URLs for LTI and direct links. Appending the module id will create working links*/
+            const baseLtiBbUrl = "https://frame.credocourseware.com/lti_provider/courses/course-v1:Community-College-of-Allegheny-County+Core+Core/block-v1:Community-College-of-Allegheny-County+Core+Core+type@sequential+block@";
+            const baseDirectUrl = "https://ezproxy.ccac.edu/login?url=https://frame.credocourseware.com/courses/course-v1:Community-College-of-Allegheny-County+Core+Core/xblock/block-v1:Community-College-of-Allegheny-County+Core+Core+type@sequential+block@";
+
+            // build the table of tutorials
+            $.each(infolit, function (i, value) {
+                //create row of data
+                let row = "<tr><td data-id='" + value.id + "'>" + value.title + "</td>" +
+                    "<td>" + value.desc + "</td>" +
+                    "<td>" + "<a href='" + baseDirectUrl + value.id + "' class='btn btn-default' target='_blank'>Preview</a></td>" +
+                    "<td>" + "<button class='btn btn-default' >Copy Direct Link</button></td>" +
+                    "<td>" + "<button class='btn btn-default' >Copy Bb Link</button></td>" +
+                    "<td>" + "<button class='btn btn-default' >Copy iFrame Code</button></td></tr>";
+
+                // append row to tbody
+                $("#tableLinks tbody").append(row);
+
+            })
+
+            // hide the textarea that will hold any urls being copied
+            $("#UrlToCopy").hide();
+
+            // When a button is clicked, determine the row, type of button .
+            $("#tableLinks").on('click', '.btn-default', function () {
+                let directLink, BbLink, btnText;
+
+                //remove any tr style (background-color)
+                $("tr").removeAttr('style');
+
+                // get the current row, first td, and then the data-id. Highlight the row to help user keep track of it
+                let currentRow = $(this).closest("tr");
+                let moduleId = currentRow.find("td:eq(0)").attr('data-id');
+                currentRow.css("background-color", "#fff6b8");
+
+
+                // build the appropriate URL and send it to be copied
+                if ($(this).text() === "Copy Bb Link") {
+                    btnText = $(this).text();
+                    copyUrl(baseLtiBbUrl + moduleId);
+
+                }
+                else if ($(this).text() === "Copy Direct Link") {
+                    btnText = $(this).text();
+                    copyUrl(baseDirectUrl + moduleId);
+                }
+                else if ($(this).text() === "Copy iFrame Code") {
+                    btnText = $(this).text();
+                    let iframe = '<iframe src="https://ezproxy.ccac.edu/login?url=https://frame.credocourseware.com/courses/course-v1:Community-College-of-Allegheny-County+Core+Core/xblock/block-v1:Community-College-of-Allegheny-County+Core+Core+type@sequential+block@' + moduleId + '/" width="100%" height="750" scrolling="yes"></iframe>';
+                    copyUrl(iframe);
+                }
+
+                // Show a success message on the buttons, not the preview link.
+                if ($(this).text() !== "Preview") {
+                    //Display a 'success' message on the button and make it green
+                    let btnSuccess = $(this);
+                    $(btnSuccess).html("Copied!");
+                    $(btnSuccess).addClass('btn-success').removeClass('btn-default');
+
+
+                    //Restore the default button text & style
+                    $(btnSuccess).fadeOut(2500, function () {
+                        $(btnSuccess).addClass('btn-default').removeClass('btn-success');
+                        $(btnSuccess).html(btnText);
+                        $(btnSuccess).show();
+                    });
+                }
+
+
+
+                /*Copy the requested URL (LTI, direct, or iframe) to the clipboard
+                url is the fully constructed URL 
+                type is the type of url (Bb, direct, or iframe)
+                */
+                function copyUrl(url) {
+                    // make temp textarea visible & copy selected url to it
+                    $("#UrlToCopy").show();
+                    $("#UrlToCopy").text(url);
+
+                    // Copy it to the clipboard then reset & hide the textarea
+                    $("#UrlToCopy").select();
+                    document.execCommand("copy");
+                    $("#UrlToCopy").text("").hide();
+                }
+
+                //var col1 = currentRow.find("td:eq(0)").text(); // get current row 1st TD value
+                //var colDirectLink = currentRow.find("td:eq(2)").find('a').attr('href');
+
+
+            });
+
+        });
+
+
+    </script>
+
+
+
+</head>
+
+<body>
+    <table id="tableLinks" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Click to Preview</th>
+                <th>Copy Direct Link</th>
+                <th>Copy Blackboard LTI Link</th>
+                <th>Copy iFrame Code</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+        </tbody>
+    </table>
+    <textarea id="UrlToCopy"></textarea>
+
+
+</body>
+
+</html>
