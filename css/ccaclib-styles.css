@@ -263,6 +263,13 @@ li.ui-tabs-active a {
 /* --- best bet button ---*/
 .label-success {
   background-color: #923C3C;
+<<<<<<< HEAD
+
+}
+
+.s-lg-az-result-badge-featured, .s-lg-az-result-badge-popular {
+=======
+>>>>>>> a42435c3713c7b910a0734cab3ff7885be7a2b43
   color: #ffffff !important;
 }
 
@@ -304,4 +311,8 @@ li.ui-tabs-active a {
 .btn-ccac {
   background-color: #c41230;
   color: #ffffff !important;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> a42435c3713c7b910a0734cab3ff7885be7a2b43
