@@ -1,0 +1,7 @@
+To get the URLs for Credo InfoLit (direct, LTI, and iframe):
+
+-Log into the course as an admin user.
+
+-Open the course and click the Instructor tab
+
+-Click the "Link constructor" tab and explore the URL options. 
